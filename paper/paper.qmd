@@ -1,0 +1,400 @@
+---
+title: "My title"
+subtitle: "My subtitle if needed"
+author: 
+  - First author
+  - Another author
+thanks: "Code and data are available at: LINK."
+date: today
+date-format: long
+abstract: "First sentence. Second sentence. Third sentence. Fourth sentence."
+format: pdf
+number-sections: true
+bibliography: references.bib
+---
+
+```{r}
+#| include: false
+#| warning: false
+#| message: false
+
+library(tidyverse)
+library(dplyr)
+library(stringr)
+library(ggplot2)
+library(MetBrewer)
+
+```
+
+
+# Introduction
+
+You can and should cross-reference sections and sub-sections. We use @citeR and @rohan.
+
+The remainder of this paper is structured as follows. @sec-data....
+
+
+
+# Data {#sec-data}
+
+
+
+
+
+# Results {#sec-result}
+
+Our results are summarized in @tbl-modelresults.
+
+```{r}
+#| echo: false
+#| eval: true
+#| warning: false
+#| message: false
+#| 
+#### Loading the Cleaned Dataset ###
+
+lgbtq <- read_csv("data/analysis_data/lgbtq.csv")
+billion <- read_csv("data/analysis_data/billion.csv")
+partisans <- read_csv("data/analysis_data/partisans.csv")
+```
+
+```{r}
+#| echo: false
+#| eval: true
+#| label: prepare_lgbtq
+#| warning: false
+
+#### Calculate the percentages of handles given by people with different gender, race and education level ####
+### in LGBTQ target ###
+### Prepare for later graphs ###
+
+#gender
+counts <- lgbtq %>%
+  group_by(treatment,gender,handle) %>%
+  summarise(count = n(), .groups = "drop") 
+print(counts)
+
+total_counts <- lgbtq %>%
+  group_by(treatment, gender) %>%
+  summarise(total = n(), .groups = "drop") %>%
+  ungroup()
+
+percentages <- counts %>%
+  left_join(total_counts, by = c("treatment", "gender")) %>%
+  mutate(percentage = (count / total) * 100)
+
+result_l_gender <- percentages %>%
+  filter(gender != "Other") %>% #Number of Others is too small, delete it for simplicity
+  dplyr::select(treatment, gender, handle, percentage)
+
+
+#race
+counts_race <- lgbtq %>%
+  filter(!is.na(racecat_anes)) %>%
+  group_by(treatment,racecat_anes,handle) %>%
+  summarise(count = n(), .groups = "drop")
+print(counts_race)
+
+total_counts_race <- lgbtq %>%
+  filter(!is.na(racecat_anes)) %>%
+  group_by(treatment, racecat_anes) %>%
+  summarise(total = n(), .groups = "drop") %>%
+  ungroup()
+
+print(total_counts_race)
+percentages_race <- counts_race %>%
+  left_join(total_counts_race, by = c("treatment", "racecat_anes")) %>%
+  mutate(percentage = (count / total) * 100)
+
+result_l_race <- percentages_race %>%
+  dplyr::select(treatment, racecat_anes, handle, percentage) 
+
+
+#education
+counts_edu <- lgbtq %>%
+  filter(!is.na(educ)) %>%
+  group_by(treatment,educ,handle) %>%
+  summarise(count = n(), .groups = "drop")
+
+total_counts_edu <- lgbtq %>%
+  filter(!is.na(educ)) %>%
+  group_by(treatment, educ) %>%
+  summarise(total = n(), .groups = "drop") %>%
+  ungroup()
+
+percentages_edu <- counts_edu %>%
+  left_join(total_counts_edu, by = c("treatment", "educ")) %>%
+  mutate(percentage = (count / total) * 100)
+
+result_l_edu <- percentages_edu %>%
+  filter(educ %in% c("High school graduate", "College","Postgraduate (e.g. Masters)"))%>%
+  dplyr::select(treatment, educ, handle, percentage) 
+```
+
+```{r}
+#| echo: false
+#| eval: true
+#| label: prepare_billionaire
+#| warning: false
+
+#gender
+count <- billionaires %>%
+  group_by(treatment,gender,handle) %>%
+  summarise(count = n(), .groups = "drop")
+print(count)
+
+total_counts <- billionaires %>%
+  group_by(treatment, gender)%>%
+  summarise(total = n(), .groups = "drop") %>%
+  ungroup()
+
+percentages <- count %>%
+  left_join(total_counts, by = c("treatment", "gender")) %>%
+  mutate(percentage = (count / total) * 100)
+
+result_b_gender <- percentages %>%
+  filter(gender != "Other") %>%
+  dplyr::select(treatment, gender, handle, percentage)
+
+print(result_b_gender)
+
+#race
+counts_race <- billionaires %>%
+  filter(!is.na(racecat_anes)) %>%
+  group_by(treatment,racecat_anes,handle) %>%
+  summarise(count = n(), .groups = "drop")
+print(counts_race)
+
+total_counts_race <- billionaires %>%
+  filter(!is.na(racecat_anes)) %>%
+  group_by(treatment, racecat_anes) %>%
+  summarise(total = n(), .groups = "drop") %>%
+  ungroup()
+
+percentages_race <- counts_race %>%
+  left_join(total_counts_race, by = c("treatment", "racecat_anes")) %>%
+  mutate(percentage = (count / total) * 100)
+
+result_b_race <- percentages_race %>%
+  dplyr::select(treatment, racecat_anes, handle, percentage) 
+
+
+#education
+counts_edu <- billionaires %>%
+  filter(!is.na(educ)) %>%
+  group_by(treatment,educ,handle) %>%
+  summarise(count = n(), .groups = "drop")
+
+total_counts_edu <- billionaires %>%
+  filter(!is.na(educ)) %>%
+  group_by(treatment, educ) %>%
+  summarise(total = n(), .groups = "drop") %>%
+  ungroup()
+
+print(total_counts_edu)
+percentages_edu <- counts_edu %>%
+  left_join(total_counts_edu, by = c("treatment", "educ")) %>%
+  mutate(percentage = (count / total) * 100)
+
+result_b_edu <- percentages_edu %>%
+  filter(educ %in% c("High school graduate", "College","Postgraduate (e.g. Masters)"))%>%
+  dplyr::select(treatment, educ, handle, percentage) 
+
+```
+
+```{r}
+#| echo: false
+#| eval: true
+#| label: gender comparision
+#| warning: false
+
+create_gender_comparison_plot <- function(data, title) {
+  levels_treatment <- unique(data$treatment)
+  levels_gender <- c("Female", "Male")
+
+  # Create a new factor combining treatment and gender with the right order
+  data$treatment_gender <- factor(
+    paste(data$treatment, data$gender),
+    levels = c(rbind(
+      paste(levels_treatment, "Female"),
+      paste(levels_treatment, "Male")
+    ))
+  )
+
+  # We'll create a named vector to map the factor levels to the custom labels
+  # Initialize the labels with treatment names, ensuring they only appear once
+  treatment_labels <- rep("", length(levels_treatment) * 2)
+  names(treatment_labels) <- levels(data$treatment_gender)
+  treatment_labels[names(treatment_labels) %in% paste(levels_treatment, "Female")] <- paste("\n", levels_treatment)
+  
+  # Now, assign the gender labels, making sure they're in the first line
+  treatment_labels[names(treatment_labels) %in% paste(levels_treatment, "Female")] <- paste("Female", treatment_labels[names(treatment_labels) %in% paste(levels_treatment, "Female")])
+  treatment_labels[names(treatment_labels) %in% paste(levels_treatment, "Male")] <- "Male"
+
+  ggplot(data, aes(x = treatment_gender, y = percentage, fill = handle)) +
+    geom_bar(stat = "identity", position = position_fill()) +
+    scale_y_continuous(labels = scales::percent_format()) +
+    labs(x = "", y = "Percentage", fill = "How should social media companies \nhandle the post?", title = title) + # Updated legend label
+    scale_x_discrete(labels = treatment_labels) + # Use custom labels for the x axis
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 0, hjust = 0.5, vjust = 1), # Adjust text alignment if needed
+          legend.position = "bottom",
+          legend.box = "vertical",
+          legend.key.size = unit(0.5, 'cm')) +
+    guides(fill = guide_legend(reverse = TRUE, nrow = 3, byrow = TRUE)) + # Adjust the number of rows and order
+    scale_fill_met_d(name = "Degas", direction = -1) # Apply the Degas palette from MetBrewer
+}
+
+# Then you can create and display the plots as before
+lgbtq_plot <- create_gender_comparison_plot(result_l_gender, "LGBTQ Topic: Gender Comparison by Treatment")
+billionaire_plot <- create_gender_comparison_plot(result_b_gender, "Billionaire Topic: Gender Comparison by Treatment")
+print(lgbtq_plot)
+print(billionaire_plot)
+
+```
+
+```{r}
+#| echo: false
+#| eval: true
+#| label: race comparision
+#| warning: false
+
+create_race_comparison_plot <- function(data, title) {
+  levels_treatment <- unique(data$treatment)
+  levels_race <- c("Black", "Hispanic", "White", "Race other/multiple")
+
+  # Create a new factor combining treatment and race with the right order
+  data$treatment_race <- factor(
+    paste(data$treatment, data$racecat_anes),
+    levels = c(rbind(
+      paste(levels_treatment, "Black"),
+      paste(levels_treatment, "Hispanic"),
+      paste(levels_treatment, "White"),
+      paste(levels_treatment, "Race other/multiple")
+    ))
+  )
+
+  # We'll create a named vector to map the factor levels to the custom labels
+  # Initialize the labels with treatment names, ensuring they only appear once
+  treatment_labels <- rep("", length(levels_treatment) * length(levels_race))
+  names(treatment_labels) <- levels(data$treatment_race)
+  treatment_labels[names(treatment_labels) %in% paste(levels_treatment, "Black")] <- paste("\n", levels_treatment)
+  
+  # Assign the race labels, making sure they're in the first line
+  treatment_labels[names(treatment_labels) %in% paste(levels_treatment, "Black")] <- paste("Black", treatment_labels[names(treatment_labels) %in% paste(levels_treatment, "Black")])
+  treatment_labels[names(treatment_labels) %in% paste(levels_treatment, "Hispanic")] <- "Hispanic"
+  treatment_labels[names(treatment_labels) %in% paste(levels_treatment, "White")] <- "White"
+  treatment_labels[names(treatment_labels) %in% paste(levels_treatment, "Race other/multiple")] <- "Race other/multiple"
+
+  ggplot(data, aes(x = treatment_race, y = percentage, fill = handle)) +
+    geom_bar(stat = "identity", position = position_fill()) +
+    scale_y_continuous(labels = scales::percent_format()) +
+    labs(x = "", y = "Percentage", fill = "How should social media companies \nhandle the post?", title = title)+
+    scale_x_discrete(labels = treatment_labels) + 
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1),
+          legend.position = "bottom",
+          legend.box = "vertical",
+          legend.key.size = unit(0.5, 'cm')) +
+    guides(fill = guide_legend(reverse = TRUE, nrow = 3, byrow = TRUE)) +
+    scale_fill_met_d(name = "Degas", direction = -1) 
+}
+
+lgbtq_plot <- create_race_comparison_plot(result_l_race, "LGBTQ Topic: Race Comparison by Treatment")
+billionaire_plot <- create_race_comparison_plot(result_b_race, "Billionaire Topic: Race Comparison by Treatment")
+
+print(lgbtq_plot)
+print(billionaire_plot)
+
+```
+
+```{r}
+#| echo: false
+#| eval: true
+#| label: education level comparision
+#| warning: false
+
+create_edu_comparison_plot <- function(data, title) {
+  levels_treatment <- unique(data$treatment)
+  levels_edu <- c("High school graduate", "College", "Postgraduate (e.g. Masters)")
+
+  # Create a new factor combining treatment and education with the right order
+  data$treatment_edu <- factor(
+    paste(data$treatment, data$educ),
+    levels = c(rbind(
+      paste(levels_treatment, "High school graduate"),
+      paste(levels_treatment, "College"),
+      paste(levels_treatment, "Postgraduate (e.g. Masters)")
+    ))
+  )
+
+  # We'll create a named vector to map the factor levels to the custom labels
+  # Initialize the labels with treatment names, ensuring they only appear once
+  treatment_labels <- rep("", length(levels_treatment) * length(levels_edu))
+  names(treatment_labels) <- levels(data$treatment_edu)
+  treatment_labels[names(treatment_labels) %in% paste(levels_treatment, "High school graduate")] <- paste("\n", levels_treatment)
+  
+  
+  
+  # Now, assign the education labels, making sure they're in the first line
+  treatment_labels[names(treatment_labels) %in% paste(levels_treatment, "High school graduate")] <- paste("High school graduate", treatment_labels[names(treatment_labels) %in% paste(levels_treatment, "High school graduate")])
+  treatment_labels[names(treatment_labels) %in% paste(levels_treatment, "College")] <- "College"
+  treatment_labels[names(treatment_labels) %in% paste(levels_treatment, "Postgraduate (e.g. Masters)")] <- "Postgraduate (e.g. Masters)"
+  
+  
+
+  ggplot(data, aes(x = treatment_edu, y = percentage, fill = handle)) +
+    geom_bar(stat = "identity", position = position_fill()) +
+    scale_y_continuous(labels = scales::percent_format()) +
+    labs(x = "", y = "Percentage", fill = "How should social media companies \nhandle the post?", title = title) + # Updated legend label
+    scale_x_discrete(labels = treatment_labels) +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1),
+          legend.position = "bottom",
+          legend.box = "vertical",
+          legend.key.size = unit(0.5, 'cm')) +
+    guides(fill = guide_legend(reverse = TRUE, nrow = 3, byrow = TRUE)) + 
+    scale_fill_met_d(name = "Degas", direction = -1) 
+}
+
+# Create and display the plots separately
+lgbtq_plot <- create_edu_comparison_plot(result_l_edu, "LGBTQ Topic: Education Comparison by Treatment")
+billionaire_plot <- create_edu_comparison_plot(result_b_edu, "Billionaire Topic: Education Comparison by Treatment")
+
+print(lgbtq_plot)
+print(billionaire_plot)
+
+```
+
+
+
+# Discussion
+
+## First discussion point {#sec-first-point}
+
+If my paper were 10 pages, then should be be at least 2.5 pages. The discussion is a chance to show off what you know and what you learnt from all this. 
+
+## Second discussion point
+
+## Third discussion point
+
+## Weaknesses and next steps
+
+Weaknesses and next steps should also be included.
+
+\newpage
+
+\appendix
+
+# Appendix {-}
+
+
+
+
+
+\newpage
+
+
+# References
+
+
