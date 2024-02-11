@@ -1,11 +1,11 @@
 #### Preamble ####
 # Purpose: Downloads and saves the data from Harvard Dataverse
-# Author: Yichen Ji, Shuhan Yang, Xiaoxv Liu
-# Date: 05 February 2023
-# Contact: yic.ji@mail.utoronto.ca
+# Author: Yichen Ji, Shuhan Yang, Xiaoxu Liu
+# Date: 11 February 2023
+# Contact: yic.ji@mail.utoronto.ca, xiaoxu.liu@mail.utoronto.ca
 # License: MIT
-# Pre-requisites: [...UPDATE THIS...]
-# Any other information needed? [...UPDATE THIS...]
+# Pre-requisites: Download packages "rvest" and "httr"
+# Any other information needed? No.
 
 
 #### Workspace setup ####
@@ -16,14 +16,16 @@ library(httr)
 #### Download data ####
 download_url_billion <- "https://dataverse.harvard.edu/api/access/datafile/7513335"
 download_url_lgbtq <- "https://dataverse.harvard.edu/api/access/datafile/7513334"
-download_url_patisans <- "https://dataverse.harvard.edu/api/access/datafile/7513334"
+download_url_partisans <- "https://dataverse.harvard.edu/api/access/datafile/7513334"
 
-destfile <- "/Users/selinaji/Desktop/paper2/billionaires.RData"
-
-GET(download_url, write_disk(destfile, overwrite = TRUE))
-
+destfile_billion <- "data/raw_data/billionaire.RData"
+destfile_lgbtq <- "data/raw_data/lgbtq.RData"
+destfile_partisans <- "data/raw_data/partisans.RData"
 
 
 #### Save data ####
 # change the_raw_data to whatever name you assigned when you downloaded it.
-write_csv(the_raw_data, "inputs/data/raw_data.csv") 
+GET(download_url_billion, write_disk(destfile_billion, overwrite = TRUE))
+GET(download_url_lgbtq, write_disk(destfile_lgbtq, overwrite = TRUE))
+GET(download_url_partisans, write_disk(destfile_partisans, overwrite = TRUE))
+
