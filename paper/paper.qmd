@@ -1,19 +1,19 @@
 ---
-title: "My title"
+title: "Public's Ideal Moderation to Online Toxic Speech"
 author: 
   - Yichen Ji
   - Xiaoxu Liu
 thanks: "Code and data are available at: https://github.com/Selinayichenji/Toxic_speech_replication.git."
 date: "`r format(Sys.time(), '%d %B %Y')`"
 date-format: long
-abstract: "In this report,."
+abstract: "In this report,we analysis the public's ideal moderation for 5 levels toxic online speech.It was found that most people tend not to give harsh moderations, unless the speech touches upon personal threat. And people with different social factors have difference preferences on moderations.The findings will help me build a ideal standard platform for the public."
 format: pdf
 toc: true
 number-sections: true
 bibliography: references.bib
 ---
 
-```{r}
+```{r setup}
 #| include: false
 #| warning: false
 #| message: false
@@ -30,27 +30,62 @@ library(grid)
 
 
 # Introduction
+*This reproduction was performed after a replication on the Social Science Reproduction platform:****[link here](https://www.socialsciencereproduction.org/reproductions/f4c25f83-2c8b-448e-be76-760e02694112/index)***
+
 
 The research has shown that roughly 4 in 10 Americans have experienced online harassment, including name-calling, physical threats, and sexual abuse (Pew Research Center 2021a).  With the current widespread use of social media, the debation of regulating toxic content becomes even more pertinent. Cultivating civility within democratic discourse is strongly necessary, such as emphasizing respect and social order when communicating online. However, the emergence of uncivil, intolerant content on social platforms raises concerns about its potential harm to public discourse and democracy. Our focus is on the crucial dilemma: should measures be implemented to moderate toxic content and uphold civility, or should we suggest allowing such speech on social media to remain unconstrained? The pursuit of addressing these challenges becomes significant in shaping the future of online democratic engagement.
 Although hate, harassment, and extremism significantly impact the country and online community negatively as toxic comments have saturated lots of common social media in the U.S., the application of strong and effective regulation over social media faces challenges due to multiple factors. Various factors, including technology companies, government, and NGOs, oppose the potential heavy regulation, which operates within a distinct legal framework in the U.S. Besides, Users, the ultimate recipients of online toxicity, are important in reporting objectionable content through flagging mechanisms. Therefore, we attempt to find the ideal platform standards from users' views to against toxic speech.
 
-
 We aim to apply the initial analysis from the original paper "Toxic Speech and Limited Demand for Content Moderation on Social Media", which is from the American Political Science Review. The paper attempts to figure out the consistency of how users reply to toxic speech when using social media to find an appropriate solution to improve the harmony of online platforms, and it includes two pieces of research: 1). targeting social groups and 2). targeting partisans. In our reproduction, we use the original methods and the same dataset and shift the concentration from the level of toxic speech to the types of users while extending the research with more specific prevalent aspects of the groups of people's responses. Instead of talking about how people respond to toxic speech toward different labels of victims (LGBTQ, billionaire, and Christian) in study 1 of the original paper, we expand the study range to how people with different genders, education levels, and races react to toxic speech toward LGBTQ, billionaires, and so on. Beyond the changes, we hold all other perspectives to be the same as the original paper. For example, we set standards of toxic speech with different levels: incivility (disrespectful tone, lack of respect, rudeness, and inconsiderate language), intolerance (derogating, silencing, or undermining particular groups with specified labels), and violent threats(the tendency of physical harm). 
 
   We obtain the result of the reproduction work and find that women (gender), high school graduates (education), and Blacks / Hispanics (races) imply a tendency to be more sensitive to high-level toxic speech on social media; on the other side, men, high school graduates, and Blacks tend to be more sensitive to the billionaires target overall. The research result provides us with the information that 1). Different groups of people hold different attitudes and behaviors toward topic speech with different targets and 2). People usually want a more loose-controlled online environment and choose no heavy moderation toward heavy speech. These help us understand the user preference in social media, and stimulate the appropriate regulations of the speeches on online platforms. Generally, the reproduction talks about the summary of what we do based on the original paper and what we obtain, the data sources, detailed pictures and analysis through coding, and the discussion that concludes our results and lessons while discussing (potential) drawbacks and anticipated regulations/behaviors in the future.  (can be improved)
+  
+ESTIMATE
 
 
 
 # Data {#sec-data}
 
-Source
-Our replication paper is based on the original paper in American Political Science Review  “Toxic Speech and Limited Demand for Content Moderation on Social Media". Our paper is consistent with the original goal that attempts to find how people respond to toxic speech with different targets to decide the moderation of social media for a respectful and harmonious environment. Our paper applies using the statistical programming language R (R Core Team 2020). Besides the programming tool, we also employ the following packages: readr (Wickham, Hester, and Bryan 2023), broom (找不到), ggplot2 (Wickham H 2016), dplyr (Wickham et al. 2022), tidyverse (Wickham et al. 2019), MetBrewer (找不到), and knitr (Xie 2014).  (unsure about citation)  
+## Source
 
-Methodology
+Our replication paper is based on the original paper in American Political Science Review  “Toxic Speech and Limited Demand for Content Moderation on Social Media". Our paper is consistent with the original goal that attempts to find how people respond to toxic speech with different targets to decide the moderation of social media for a respectful and harmonious environment. 
+
+
 This paper applies the same sources as the original paper does, which consists of Papacharissi (2004, in particular pages 261–7), Herbst (2010), and Boatright et al. (2019); national laws (Busch 2022; European Parliament 2022); Brandeis notes in Whitney v. California 1927, “Partisan Conflict over Content Moderation Is More Than Disagreement about Facts.” (Appel, Pan, and Roberts Reference Appel, Pan and Roberts 2023; Kozyreva et al. Reference Kozyreva, Herzog, Lewandowsky, Hertwig, Lorenz-Spreen, Leiser and Reifler 2023), BBC. 2012. “Reddit Will Not Ban ‘Distasteful’ Content, Chief Executive Says”, Bejan, Teresa M. 2017. Mere Civility. Cambridge, and so on.
 
-measurement
+Similar dataset
 
+
+## Methodology
+
+Our paper applies using the statistical programming language R [@citeR]. Besides the programming tool, we also employ the following packages: readr [@read], broom [@broom], ggplot2 [@gg2], dplyr [@dpr], tidyverse [@tidy], MetBrewer [@met], and knitr [@citeknr].
+
+
+## Variables
+We only introduced the variables used in our own analysis. For the full variables from the original paper, please check the Appendix.
+
+- Treatment: non-group-related control, control, uncivil, intolerant and threatening.
+   - Non-group-related control means no target and no toxic language.
+Control means anti-target but without the 3 kinds of toxic languages: uncivil, intolerant and threatening. 
+In original paper, uncivil is defined as "including anything from an unnecessarily disrespectful tone and lack of respect to rudeness and inconsiderate language."[@paper]. 
+And the intolerance differs from incivility, "it aims to derogate, silence, or undermine particular groups due to their protected characteristics, attack their rights, and incite violence and harm."[@paper].
+The threatening is a toxic behavior explicitly announces the intention of physical harm.[@paper].
+
+- Handle: (1) Leave it, do nothing; (2) Place a warning label on the post; (3) Reduce how many people can see the post; (4) Permanently remove the post; (5) Suspend the person’s account.
+
+- Gender: Male, Female and Others.
+- Education: High school graduate; College; Postgraduate.
+- Race: White, Black, Hispanic and Others.
+- Percentage: It means the ratio of 5 handles given by people with the same social factor when they are facing the same treatment.
+
+
+## Measurement
+The data collected by using survey.
+
+## Structure of the paper'remainder parts
+
+
+\newpage
 # Results {#sec-result}
 
 Our results are summarized in @tbl-modelresults.
@@ -59,7 +94,6 @@ Our results are summarized in @tbl-modelresults.
 #| echo: false
 #| warning: false
 #| message: false
-
 #### Loading the Cleaned Dataset ###
 
 lgbtq <- read_csv(here::here("data/analysis_data/lgbtq.csv"))
@@ -76,9 +110,10 @@ result_l_edu <-read_csv(here::here("data/analysis_data/lgbtq_education.csv"))
 
 ```
 
-```{r lgbtq_rep, fig.width=6, fig.height=5.1}
+```{r, fig.width=6, fig.height=5.1}
 #| echo: false
 #| eval: true
+#| label: fig-lgbtq-rep
 #| warning: false
 
 data_wide <- lgbtq %>%
@@ -120,7 +155,7 @@ ggplot(data_long, aes(x = fct_rev(treatment), y = percent, fill = handle)) +
   scale_y_continuous(expand = expansion(add = c(0, 0)))
 ```
 
-
+@fig-lgbtq-rep
 
 
 ```{r gender_plot, fig.width=10, fig.height=6}
