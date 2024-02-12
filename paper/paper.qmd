@@ -43,10 +43,13 @@ We aim to apply the initial analysis from the original paper "Toxic Speech and L
 
 # Data {#sec-data}
 
+Source
+Our replication paper is based on the original paper in American Political Science Review  “Toxic Speech and Limited Demand for Content Moderation on Social Media". Our paper is consistent with the original goal that attempts to find how people respond to toxic speech with different targets to decide the moderation of social media for a respectful and harmonious environment. Our paper applies using the statistical programming language R (R Core Team 2020). Besides the programming tool, we also employ the following packages: readr (Wickham, Hester, and Bryan 2023), broom (找不到), ggplot2 (Wickham H 2016), dplyr (Wickham et al. 2022), tidyverse (Wickham et al. 2019), MetBrewer (找不到), and knitr (Xie 2014).  (unsure about citation)  
 
-Our paper applies using the statistical programming language R (R Core Team 2020). Besides the programming tool, we also employ the following packages: readr (Wickham, Hester, and 
-Bryan 2023), broom (找不到), ggplot2 (Wickham H 2016), dplyr (Wickham et al. 2022), tidyverse (Wickham et al. 2019), MetBrewer (找不到), and knitr (Xie 2014).  (unsure about citation)   
+Methodology
+This paper applies the same sources as the original paper does, which consists of Papacharissi (2004, in particular pages 261–7), Herbst (2010), and Boatright et al. (2019); national laws (Busch 2022; European Parliament 2022); Brandeis notes in Whitney v. California 1927, “Partisan Conflict over Content Moderation Is More Than Disagreement about Facts.” (Appel, Pan, and Roberts Reference Appel, Pan and Roberts 2023; Kozyreva et al. Reference Kozyreva, Herzog, Lewandowsky, Hertwig, Lorenz-Spreen, Leiser and Reifler 2023), BBC. 2012. “Reddit Will Not Ban ‘Distasteful’ Content, Chief Executive Says”, Bejan, Teresa M. 2017. Mere Civility. Cambridge, and so on.
 
+measurement
 
 # Results {#sec-result}
 
@@ -312,13 +315,20 @@ print(final_plot)
 
 # Discussion
 
-## First discussion point {#sec-first-point}
+## What we acquire {#sec-first-point}
 
-If my paper were 10 pages, then should be be at least 2.5 pages. The discussion is a chance to show off what you know and what you learnt from all this. 
+In the paper, the result represents a trend that users prefer to do nothing to the toxic speech even if they may be affected negatively. The first study indicates that people are more likely to react to a toxic speech by reducing how many people can see the post or suspending the account if the target is LGBTQ and there is not much difference if the targets are billionaires or Christians. The second study implies that Democrats may tend to protect LGBTQ more while Republicans care about Christians more. In contrast with these, our reproduction acquires more detailed conclusions from three slightly different perspectives. From gender sight, men tend to agree with higher punishment than women do toward billionaires from gender sight, while women show a stronger tendency to protect LGBTQ than men do. From the education level perspective, those who are high school graduates tend to exhibit more protective behaviors when dealing with higher levels of toxic speech while those who are postgraduate act more sensitively to the uncivil levels. From the race perspective, Blacks and Hispanics are usually more sensitive to the LGBTQ and billionaires target overall.
 
-## Second discussion point
 
-## Third discussion point
+## What we learn: Diverse Consequences of Different Toxic Speech Types
+The study challenges past research by revealing various types of toxic speech, including incivility, intolerance, and violent threats. Unlike previous work that often focused solely on labeling manifestations of incivility, this research connects toxic speech types to their consequences. It introduces a nuanced perspective, suggesting that users perceive these speech types as distinct constructs. While intolerance and incivility prompt similar content moderation responses, the study highlights the empirical insight that users view them differently, considering incivility a matter of tone and intolerance a matter of substance, such as discrimination.
+
+
+## Point 2: Limited Support for Content Moderation
+A significant finding is the overall low support for content moderation of uncivil and intolerant content. The majority of respondents express the view that such content should remain online, with censorious forms of moderation, like banning users or removing content, being among the least favored options. Even when presented with extreme cases of toxic speech, such as attacks on the LGBTQ community, a large portion of respondents do not advocate for content moderation. This raises concerns about the broader implications for public discourse, as a substantial portion of users seems reluctant to endorse content moderation, even in the face of highly objectionable speech.
+
+## Point 3: Partisan Consistency and New Research Avenues
+Contrary to expectations in an era of affective polarization, the study finds limited evidence that users view moderation of toxic speech through partisan lenses. Democrats, in general, show a greater tendency to demand moderation, but the identity of the victim (Republican or Democrat) does not significantly influence partisans' views. This finding opens up a new research puzzle, suggesting that Americans' strong belief in the value of freedom of speech might be a driving factor. The study calls for further exploration into whether this trend persists in other countries with different legal frameworks. The results emphasize the need to understand content moderation preferences beyond partisan lines and suggest that Americans, despite political polarization, exhibit consistency in their views on this matter.
 
 ## Weaknesses and next steps
 
