@@ -1,14 +1,14 @@
 ---
 title: "My title"
-subtitle: "My subtitle if needed"
 author: 
-  - First author
-  - Another author
-thanks: "Code and data are available at: LINK."
-date: today
+  - Yichen Ji
+  - Xiaoxu Liu
+thanks: "Code and data are available at: https://github.com/Selinayichenji/Toxic_speech_replication.git."
+date: "`r format(Sys.time(), '%d %B %Y')`"
 date-format: long
-abstract: "First sentence. Second sentence. Third sentence. Fourth sentence."
+abstract: "In this report,."
 format: pdf
+toc: true
 number-sections: true
 bibliography: references.bib
 ---
@@ -20,25 +20,32 @@ bibliography: references.bib
 
 library(tidyverse)
 library(dplyr)
+library(tidyr)
 library(stringr)
 library(ggplot2)
 library(MetBrewer)
-
+library(cowplot)
+library(grid)
 ```
 
 
 # Introduction
 
-You can and should cross-reference sections and sub-sections. We use @citeR and @rohan.
+The research has shown that roughly 4 in 10 Americans have experienced online harassment, including name-calling, physical threats, and sexual abuse (Pew Research Center 2021a).  With the current widespread use of social media, the debation of regulating toxic content becomes even more pertinent. Cultivating civility within democratic discourse is strongly necessary, such as emphasizing respect and social order when communicating online. However, the emergence of uncivil, intolerant content on social platforms raises concerns about its potential harm to public discourse and democracy. Our focus is on the crucial dilemma: should measures be implemented to moderate toxic content and uphold civility, or should we suggest allowing such speech on social media to remain unconstrained? The pursuit of addressing these challenges becomes significant in shaping the future of online democratic engagement.
+Although hate, harassment, and extremism significantly impact the country and online community negatively as toxic comments have saturated lots of common social media in the U.S., the application of strong and effective regulation over social media faces challenges due to multiple factors. Various factors, including technology companies, government, and NGOs, oppose the potential heavy regulation, which operates within a distinct legal framework in the U.S. Besides, Users, the ultimate recipients of online toxicity, are important in reporting objectionable content through flagging mechanisms. Therefore, we attempt to find the ideal platform standards from users' views to against toxic speech.
 
-The remainder of this paper is structured as follows. @sec-data....
+
+We aim to apply the initial analysis from the original paper "Toxic Speech and Limited Demand for Content Moderation on Social Media", which is from the American Political Science Review. The paper attempts to figure out the consistency of how users reply to toxic speech when using social media to find an appropriate solution to improve the harmony of online platforms, and it includes two pieces of research: 1). targeting social groups and 2). targeting partisans. In our reproduction, we use the original methods and the same dataset and shift the concentration from the level of toxic speech to the types of users while extending the research with more specific prevalent aspects of the groups of people's responses. Instead of talking about how people respond to toxic speech toward different labels of victims (LGBTQ, billionaire, and Christian) in study 1 of the original paper, we expand the study range to how people with different genders, education levels, and races react to toxic speech toward LGBTQ, billionaires, and so on. Beyond the changes, we hold all other perspectives to be the same as the original paper. For example, we set standards of toxic speech with different levels: incivility (disrespectful tone, lack of respect, rudeness, and inconsiderate language), intolerance (derogating, silencing, or undermining particular groups with specified labels), and violent threats(the tendency of physical harm). 
+
+  We obtain the result of the reproduction work and find that women (gender), high school graduates (education), and Blacks / Hispanics (races) imply a tendency to be more sensitive to high-level toxic speech on social media; on the other side, men, high school graduates, and Blacks tend to be more sensitive to the billionaires target overall. The research result provides us with the information that 1). Different groups of people hold different attitudes and behaviors toward topic speech with different targets and 2). People usually want a more loose-controlled online environment and choose no heavy moderation toward heavy speech. These help us understand the user preference in social media, and stimulate the appropriate regulations of the speeches on online platforms. Generally, the reproduction talks about the summary of what we do based on the original paper and what we obtain, the data sources, detailed pictures and analysis through coding, and the discussion that concludes our results and lessons while discussing (potential) drawbacks and anticipated regulations/behaviors in the future.  (can be improved)
 
 
 
 # Data {#sec-data}
 
 
-
+Our paper applies using the statistical programming language R (R Core Team 2020). Besides the programming tool, we also employ the following packages: readr (Wickham, Hester, and 
+Bryan 2023), broom (找不到), ggplot2 (Wickham H 2016), dplyr (Wickham et al. 2022), tidyverse (Wickham et al. 2019), MetBrewer (找不到), and knitr (Xie 2014).  (unsure about citation)   
 
 
 # Results {#sec-result}
@@ -47,322 +54,257 @@ Our results are summarized in @tbl-modelresults.
 
 ```{r}
 #| echo: false
-#| eval: true
 #| warning: false
 #| message: false
-#| 
+
 #### Loading the Cleaned Dataset ###
 
-lgbtq <- read_csv("data/analysis_data/lgbtq.csv")
-billion <- read_csv("data/analysis_data/billion.csv")
-partisans <- read_csv("data/analysis_data/partisans.csv")
-```
+lgbtq <- read_csv(here::here("data/analysis_data/lgbtq.csv"))
+billion <- read_csv(here::here("data/analysis_data/billion.csv"))
+partisans <- read_csv(here::here("data/analysis_data/partisans.csv"))
 
-```{r}
-#| echo: false
-#| eval: true
-#| label: prepare_lgbtq
-#| warning: false
+result_l_gender <-read_csv(here::here("data/analysis_data/lgbtq_gender.csv"))
+result_l_race <-read_csv(here::here("data/analysis_data/lgbtq_race.csv"))
+result_l_edu <-read_csv(here::here("data/analysis_data/lgbtq_education.csv"))
 
-#### Calculate the percentages of handles given by people with different gender, race and education level ####
-### in LGBTQ target ###
-### Prepare for later graphs ###
-
-#gender
-counts <- lgbtq %>%
-  group_by(treatment,gender,handle) %>%
-  summarise(count = n(), .groups = "drop") 
-print(counts)
-
-total_counts <- lgbtq %>%
-  group_by(treatment, gender) %>%
-  summarise(total = n(), .groups = "drop") %>%
-  ungroup()
-
-percentages <- counts %>%
-  left_join(total_counts, by = c("treatment", "gender")) %>%
-  mutate(percentage = (count / total) * 100)
-
-result_l_gender <- percentages %>%
-  filter(gender != "Other") %>% #Number of Others is too small, delete it for simplicity
-  dplyr::select(treatment, gender, handle, percentage)
-
-
-#race
-counts_race <- lgbtq %>%
-  filter(!is.na(racecat_anes)) %>%
-  group_by(treatment,racecat_anes,handle) %>%
-  summarise(count = n(), .groups = "drop")
-print(counts_race)
-
-total_counts_race <- lgbtq %>%
-  filter(!is.na(racecat_anes)) %>%
-  group_by(treatment, racecat_anes) %>%
-  summarise(total = n(), .groups = "drop") %>%
-  ungroup()
-
-print(total_counts_race)
-percentages_race <- counts_race %>%
-  left_join(total_counts_race, by = c("treatment", "racecat_anes")) %>%
-  mutate(percentage = (count / total) * 100)
-
-result_l_race <- percentages_race %>%
-  dplyr::select(treatment, racecat_anes, handle, percentage) 
-
-
-#education
-counts_edu <- lgbtq %>%
-  filter(!is.na(educ)) %>%
-  group_by(treatment,educ,handle) %>%
-  summarise(count = n(), .groups = "drop")
-
-total_counts_edu <- lgbtq %>%
-  filter(!is.na(educ)) %>%
-  group_by(treatment, educ) %>%
-  summarise(total = n(), .groups = "drop") %>%
-  ungroup()
-
-percentages_edu <- counts_edu %>%
-  left_join(total_counts_edu, by = c("treatment", "educ")) %>%
-  mutate(percentage = (count / total) * 100)
-
-result_l_edu <- percentages_edu %>%
-  filter(educ %in% c("High school graduate", "College","Postgraduate (e.g. Masters)"))%>%
-  dplyr::select(treatment, educ, handle, percentage) 
-```
-
-```{r}
-#| echo: false
-#| eval: true
-#| label: prepare_billionaire
-#| warning: false
-
-#gender
-count <- billionaires %>%
-  group_by(treatment,gender,handle) %>%
-  summarise(count = n(), .groups = "drop")
-print(count)
-
-total_counts <- billionaires %>%
-  group_by(treatment, gender)%>%
-  summarise(total = n(), .groups = "drop") %>%
-  ungroup()
-
-percentages <- count %>%
-  left_join(total_counts, by = c("treatment", "gender")) %>%
-  mutate(percentage = (count / total) * 100)
-
-result_b_gender <- percentages %>%
-  filter(gender != "Other") %>%
-  dplyr::select(treatment, gender, handle, percentage)
-
-print(result_b_gender)
-
-#race
-counts_race <- billionaires %>%
-  filter(!is.na(racecat_anes)) %>%
-  group_by(treatment,racecat_anes,handle) %>%
-  summarise(count = n(), .groups = "drop")
-print(counts_race)
-
-total_counts_race <- billionaires %>%
-  filter(!is.na(racecat_anes)) %>%
-  group_by(treatment, racecat_anes) %>%
-  summarise(total = n(), .groups = "drop") %>%
-  ungroup()
-
-percentages_race <- counts_race %>%
-  left_join(total_counts_race, by = c("treatment", "racecat_anes")) %>%
-  mutate(percentage = (count / total) * 100)
-
-result_b_race <- percentages_race %>%
-  dplyr::select(treatment, racecat_anes, handle, percentage) 
-
-
-#education
-counts_edu <- billionaires %>%
-  filter(!is.na(educ)) %>%
-  group_by(treatment,educ,handle) %>%
-  summarise(count = n(), .groups = "drop")
-
-total_counts_edu <- billionaires %>%
-  filter(!is.na(educ)) %>%
-  group_by(treatment, educ) %>%
-  summarise(total = n(), .groups = "drop") %>%
-  ungroup()
-
-print(total_counts_edu)
-percentages_edu <- counts_edu %>%
-  left_join(total_counts_edu, by = c("treatment", "educ")) %>%
-  mutate(percentage = (count / total) * 100)
-
-result_b_edu <- percentages_edu %>%
-  filter(educ %in% c("High school graduate", "College","Postgraduate (e.g. Masters)"))%>%
-  dplyr::select(treatment, educ, handle, percentage) 
+#result_b_gender <-read_csv(here::here("data/analysis_data/billion_gender.csv"))
+#result_b_race <- read_csv(here::here("data/analysis_data/billion_race.csv"))
+#result_b_edu <-read_csv(here::here("data/analysis_data/billion_education.csv"))
 
 ```
 
-```{r}
+```{r lgbtq_rep, fig.width=6, fig.height=5.1}
 #| echo: false
 #| eval: true
-#| label: gender comparision
 #| warning: false
 
-create_gender_comparison_plot <- function(data, title) {
-  levels_treatment <- unique(data$treatment)
-  levels_gender <- c("Female", "Male")
+data_wide <- lgbtq %>%
+  count(treatment, handle) %>%
+  pivot_wider(names_from = handle, values_from = n, values_fill = list(n = 0)) %>%
+  mutate(total = rowSums(across(-treatment)))
 
-  # Create a new factor combining treatment and gender with the right order
-  data$treatment_gender <- factor(
-    paste(data$treatment, data$gender),
-    levels = c(rbind(
-      paste(levels_treatment, "Female"),
-      paste(levels_treatment, "Male")
-    ))
-  )
+data_wide <- data_wide %>%
+  mutate(across(-c(treatment, total), ~ .x / total * 100))
 
-  # We'll create a named vector to map the factor levels to the custom labels
-  # Initialize the labels with treatment names, ensuring they only appear once
-  treatment_labels <- rep("", length(levels_treatment) * 2)
-  names(treatment_labels) <- levels(data$treatment_gender)
-  treatment_labels[names(treatment_labels) %in% paste(levels_treatment, "Female")] <- paste("\n", levels_treatment)
-  
-  # Now, assign the gender labels, making sure they're in the first line
-  treatment_labels[names(treatment_labels) %in% paste(levels_treatment, "Female")] <- paste("Female", treatment_labels[names(treatment_labels) %in% paste(levels_treatment, "Female")])
-  treatment_labels[names(treatment_labels) %in% paste(levels_treatment, "Male")] <- "Male"
+data_long <- data_wide %>%
+  pivot_longer(-c(treatment, total), names_to = "handle", values_to = "percent") %>%
+  arrange(desc(treatment))
 
-  ggplot(data, aes(x = treatment_gender, y = percentage, fill = handle)) +
-    geom_bar(stat = "identity", position = position_fill()) +
-    scale_y_continuous(labels = scales::percent_format()) +
-    labs(x = "", y = "Percentage", fill = "How should social media companies \nhandle the post?", title = title) + # Updated legend label
-    scale_x_discrete(labels = treatment_labels) + # Use custom labels for the x axis
-    theme_minimal() +
-    theme(axis.text.x = element_text(angle = 0, hjust = 0.5, vjust = 1), # Adjust text alignment if needed
-          legend.position = "bottom",
-          legend.box = "vertical",
-          legend.key.size = unit(0.5, 'cm')) +
-    guides(fill = guide_legend(reverse = TRUE, nrow = 3, byrow = TRUE)) + # Adjust the number of rows and order
-    scale_fill_met_d(name = "Degas", direction = -1) # Apply the Degas palette from MetBrewer
+data_long <- data_long %>%
+  mutate(treatment = factor(treatment, levels = c("non-group-related","control", "uncivil", "intolerant","threatening"), 
+                            labels = c("No group mentioned", "Anti-target", "Uncivil post","Intolerant post","Threatening post")))
+
+
+data_long$handle <- gsub("’", "'", data_long$handle)
+
+ggplot(data_long, aes(x = fct_rev(treatment), y = percent, fill = handle)) +
+  geom_bar(stat = "identity",width = 0.5) +
+  theme_bw()+
+  theme(
+    legend.position = "bottom",
+    legend.key.size = unit(0.3, "lines"),
+    axis.title.y = element_text(face = "bold")
+  ) +
+  scale_fill_met_d(name = "Degas", direction = -1)+
+   guides(
+    fill = guide_legend(title = "How should social media \ncompanies handle the post?",
+                        title.position = "left",
+                        ncol = 3,# Position the title at the top
+                        byrow = TRUE)  # Arrange items by row
+  ) +
+  labs(x = "", y = "Percent", fill = "") +
+  coord_flip() +
+  scale_y_continuous(expand = expansion(add = c(0, 0)))
+```
+
+
+
+
+```{r gender_plot, fig.width=10, fig.height=6}
+#| echo: false
+#| eval: true
+#| label: gender comparision in LGBTQ
+#| warning: false
+
+result_l_gender$mapped_treatment <- as.integer(factor(result_l_gender$treatment, 
+                                levels = c("non-group-related", "control", 
+                                           "uncivil", "intolerant", "threatening")))
+
+p <- ggplot(result_l_gender, aes(x = mapped_treatment, y = percentage, group = gender, color = gender)) +
+  geom_line() +
+  geom_point() +
+  scale_x_continuous(breaks = 1:5,  labels = c("1", "2", "3", "4", "5")) +
+  facet_wrap(~handle) +
+  theme_minimal() +
+  labs(title = "Percentage by Treatment and Gender in LGBTQ Topic", x = "Treatment", y = "Percentage") +
+  scale_color_brewer(palette = "Set1")
+
+p
+grid.text("Treatment", x = 0.75, y = 0.42, just = "right")
+grid.text("1: non-group-related", x = 0.85, y = 0.35, just = "right")
+grid.text("2: control", x = 0.768, y = 0.3, just = "right")
+grid.text("3: uncivil", x = 0.764, y = 0.25, just = "right")
+grid.text("4: intolerant", x = 0.786, y = 0.2, just = "right")
+grid.text("5: threatening", x = 0.8, y = 0.15, just = "right")
+
+```
+
+
+```{r race_plot, fig.width=10, fig.height=6}
+#| echo: false
+#| eval: true
+#| label: race comparision in LGBTQ
+#| warning: false
+
+result_l_race$mapped_treatment <- as.integer(factor(result_l_race$treatment, 
+                                levels = c("non-group-related", "control", 
+                                           "uncivil", "intolerant", "threatening")))
+
+p <- ggplot(result_l_race, aes(x = mapped_treatment, y = percentage, group = race, color = race)) +
+  geom_line() +
+  geom_point() +
+  scale_x_continuous(breaks = 1:5, labels = c("1", "2", "3", "4", "5")) +
+  facet_wrap(~handle) +
+  theme_minimal() +
+  labs(title = "Percentage by Treatment and Race in LGBTQ Topic", x = "Treatment", y = "Percentage") +
+  scale_color_brewer(palette = "Set1")
+
+
+p
+grid.text("Treatment", x = 0.73, y = 0.42, just = "right")
+grid.text("1: non-group-related", x = 0.83, y = 0.35, just = "right")
+grid.text("2: control", x = 0.748, y = 0.3, just = "right")
+grid.text("3: uncivil", x = 0.744, y = 0.25, just = "right")
+grid.text("4: intolerant", x = 0.766, y = 0.2, just = "right")
+grid.text("5: threatening", x = 0.78, y = 0.15, just = "right")
+
+```
+
+
+```{r educ_plot, fig.width=10, fig.height=6}
+#| echo: false
+#| eval: true
+#| label: education comparision in LGBTQ
+#| warning: false
+
+result_l_edu$mapped_treatment <- as.integer(factor(result_l_edu$treatment, 
+                                levels = c("non-group-related", "control", 
+                                           "uncivil", "intolerant", "threatening")))
+
+p <- ggplot(result_l_edu, aes(x = mapped_treatment, y = percentage, group = educ, color = educ)) +
+  geom_line() +
+  geom_point() +
+  scale_x_continuous(breaks = 1:5, labels = c("1", "2", "3", "4", "5")) +
+  facet_wrap(~handle) +
+  theme_minimal() +
+  labs(title = "Percentage by Treatment and Education in LGBTQ Topic", x = "Treatment", y = "Percentage") +
+  scale_color_brewer(palette = "Set1")
+
+
+p
+grid.text("Treatment", x = 0.68, y = 0.42, just = "right")
+grid.text("1: non-group-related", x = 0.78, y = 0.35, just = "right")
+grid.text("2: control", x = 0.698, y = 0.3, just = "right")
+grid.text("3: uncivil", x = 0.694, y = 0.25, just = "right")
+grid.text("4: intolerant", x = 0.716, y = 0.2, just = "right")
+grid.text("5: threatening", x = 0.73, y = 0.15, just = "right")
+
+```
+
+
+
+
+```{r fig.width=12, fig.height=7.5}
+#| echo: false
+#| eval: true
+#| warning: false
+
+# Function to prepare data
+prepare_data <- function(partisans, target_partisan) {
+  partisans %>%
+    filter(partisan == target_partisan | treatment == "non-group-related control") %>% 
+    mutate(treatment = factor(treatment, 
+                              levels = c("non-group-related control", "control", 
+                                         "uncivil", "intolerant", "threatening"), 
+                              labels = c("No group mentioned", "Anti-target", 
+                                         "Uncivil post", "Intolerant post", "Threatening post"))) %>%
+    count(treatment, handle) %>%
+    pivot_wider(names_from = handle, values_from = n, values_fill = list(n = 0)) %>%
+    mutate(total = rowSums(across(-treatment))) %>%
+    mutate(across(-c(treatment, total), ~ .x / total * 100)) %>%
+    pivot_longer(-c(treatment, total), names_to = "handle", values_to = "percent") %>%
+    arrange(desc(treatment)) %>%
+    mutate(handle = iconv(handle, from = "UTF-8", to = "ASCII", sub = "'")) # Convert non-ASCII characters to ASCII
 }
 
-# Then you can create and display the plots as before
-lgbtq_plot <- create_gender_comparison_plot(result_l_gender, "LGBTQ Topic: Gender Comparison by Treatment")
-billionaire_plot <- create_gender_comparison_plot(result_b_gender, "Billionaire Topic: Gender Comparison by Treatment")
-print(lgbtq_plot)
-print(billionaire_plot)
 
-```
+# Function to generate plot with legend and bold title
+generate_plot <- function(data_long, show_legend = FALSE) {
+  p <- ggplot(data_long, aes(x = fct_rev(treatment), y = percent, fill = handle)) +
+    geom_bar(stat = "identity", width = 0.5) +
+    theme_bw() +
+    theme(
+      legend.position = "none",  # We will place the legend manually
+      axis.title.x = element_blank(),
+      axis.text.y = element_text(face = "bold"),
+      axis.text.x = element_blank(),
+      plot.margin = margin(5.5, 10, 5.5, 5.5)
+    ) +
+    scale_fill_met_d(name = "Degas", direction = -1) +
+    labs(x = "", y = "Percent", fill = "") +
+    coord_flip() +
+    scale_y_continuous(expand = expansion(add = c(0, 0)))
 
-```{r}
-#| echo: false
-#| eval: true
-#| label: race comparision
-#| warning: false
+  if (show_legend) {
+    p <- p + theme(legend.position = "bottom") + 
+      guides(
+        fill = guide_legend(
+          title = "How should social media companies \nhandle the post?",
+          title.position = "left", 
+          ncol = 3, 
+          byrow = TRUE 
+        )
+      )
+  }
 
-create_race_comparison_plot <- function(data, title) {
-  levels_treatment <- unique(data$treatment)
-  levels_race <- c("Black", "Hispanic", "White", "Race other/multiple")
-
-  # Create a new factor combining treatment and race with the right order
-  data$treatment_race <- factor(
-    paste(data$treatment, data$racecat_anes),
-    levels = c(rbind(
-      paste(levels_treatment, "Black"),
-      paste(levels_treatment, "Hispanic"),
-      paste(levels_treatment, "White"),
-      paste(levels_treatment, "Race other/multiple")
-    ))
-  )
-
-  # We'll create a named vector to map the factor levels to the custom labels
-  # Initialize the labels with treatment names, ensuring they only appear once
-  treatment_labels <- rep("", length(levels_treatment) * length(levels_race))
-  names(treatment_labels) <- levels(data$treatment_race)
-  treatment_labels[names(treatment_labels) %in% paste(levels_treatment, "Black")] <- paste("\n", levels_treatment)
-  
-  # Assign the race labels, making sure they're in the first line
-  treatment_labels[names(treatment_labels) %in% paste(levels_treatment, "Black")] <- paste("Black", treatment_labels[names(treatment_labels) %in% paste(levels_treatment, "Black")])
-  treatment_labels[names(treatment_labels) %in% paste(levels_treatment, "Hispanic")] <- "Hispanic"
-  treatment_labels[names(treatment_labels) %in% paste(levels_treatment, "White")] <- "White"
-  treatment_labels[names(treatment_labels) %in% paste(levels_treatment, "Race other/multiple")] <- "Race other/multiple"
-
-  ggplot(data, aes(x = treatment_race, y = percentage, fill = handle)) +
-    geom_bar(stat = "identity", position = position_fill()) +
-    scale_y_continuous(labels = scales::percent_format()) +
-    labs(x = "", y = "Percentage", fill = "How should social media companies \nhandle the post?", title = title)+
-    scale_x_discrete(labels = treatment_labels) + 
-    theme_minimal() +
-    theme(axis.text.x = element_text(angle = 45, hjust = 1),
-          legend.position = "bottom",
-          legend.box = "vertical",
-          legend.key.size = unit(0.5, 'cm')) +
-    guides(fill = guide_legend(reverse = TRUE, nrow = 3, byrow = TRUE)) +
-    scale_fill_met_d(name = "Degas", direction = -1) 
+  return(p)
 }
 
-lgbtq_plot <- create_race_comparison_plot(result_l_race, "LGBTQ Topic: Race Comparison by Treatment")
-billionaire_plot <- create_race_comparison_plot(result_b_race, "Billionaire Topic: Race Comparison by Treatment")
+democrats_data_long <- prepare_data(partisans, "target: democrats")
+republicans_data_long <- prepare_data(partisans, "target: republicans")
 
-print(lgbtq_plot)
-print(billionaire_plot)
+# Generate plots for Democrats and Republicans without individual titles
+democrats_plot <- generate_plot(democrats_data_long)
+republicans_plot <- generate_plot(republicans_data_long)
 
-```
+# Generate a plot with a legend to extract it
+legend_plot <- generate_plot(democrats_data_long, TRUE) # Title is irrelevant here
 
-```{r}
-#| echo: false
-#| eval: true
-#| label: education level comparision
-#| warning: false
+# Extract the legend from the legend plot
+legend <- get_legend(legend_plot)
 
-create_edu_comparison_plot <- function(data, title) {
-  levels_treatment <- unique(data$treatment)
-  levels_edu <- c("High school graduate", "College", "Postgraduate (e.g. Masters)")
+# Combine plots and align the labels correctly
+combined_plot <- plot_grid(
+  democrats_plot + theme(plot.margin = margin(10, 10, 40, 5.5)), # Increase the top margin
+  republicans_plot + theme(plot.margin = margin(10, 10, 40, 5.5)),
+  labels = c("Target: Democrats", "Target: Republicans"),
+  label_size = 12,
+  label_fontface = "bold",
+  hjust = -0.5, # Adjust horizontal position of labels
+  vjust = 1.5,  # Adjust vertical position of labels
+  ncol = 2
+)
 
-  # Create a new factor combining treatment and education with the right order
-  data$treatment_edu <- factor(
-    paste(data$treatment, data$educ),
-    levels = c(rbind(
-      paste(levels_treatment, "High school graduate"),
-      paste(levels_treatment, "College"),
-      paste(levels_treatment, "Postgraduate (e.g. Masters)")
-    ))
-  )
+# Place the legend below the plots
+final_plot <- plot_grid(
+  combined_plot,
+  legend,
+  ncol = 1,
+  rel_heights = c(1, 0.2) # Adjust these values as needed
+)
 
-  # We'll create a named vector to map the factor levels to the custom labels
-  # Initialize the labels with treatment names, ensuring they only appear once
-  treatment_labels <- rep("", length(levels_treatment) * length(levels_edu))
-  names(treatment_labels) <- levels(data$treatment_edu)
-  treatment_labels[names(treatment_labels) %in% paste(levels_treatment, "High school graduate")] <- paste("\n", levels_treatment)
-  
-  
-  
-  # Now, assign the education labels, making sure they're in the first line
-  treatment_labels[names(treatment_labels) %in% paste(levels_treatment, "High school graduate")] <- paste("High school graduate", treatment_labels[names(treatment_labels) %in% paste(levels_treatment, "High school graduate")])
-  treatment_labels[names(treatment_labels) %in% paste(levels_treatment, "College")] <- "College"
-  treatment_labels[names(treatment_labels) %in% paste(levels_treatment, "Postgraduate (e.g. Masters)")] <- "Postgraduate (e.g. Masters)"
-  
-  
-
-  ggplot(data, aes(x = treatment_edu, y = percentage, fill = handle)) +
-    geom_bar(stat = "identity", position = position_fill()) +
-    scale_y_continuous(labels = scales::percent_format()) +
-    labs(x = "", y = "Percentage", fill = "How should social media companies \nhandle the post?", title = title) + # Updated legend label
-    scale_x_discrete(labels = treatment_labels) +
-    theme_minimal() +
-    theme(axis.text.x = element_text(angle = 45, hjust = 1),
-          legend.position = "bottom",
-          legend.box = "vertical",
-          legend.key.size = unit(0.5, 'cm')) +
-    guides(fill = guide_legend(reverse = TRUE, nrow = 3, byrow = TRUE)) + 
-    scale_fill_met_d(name = "Degas", direction = -1) 
-}
-
-# Create and display the plots separately
-lgbtq_plot <- create_edu_comparison_plot(result_l_edu, "LGBTQ Topic: Education Comparison by Treatment")
-billionaire_plot <- create_edu_comparison_plot(result_b_edu, "Billionaire Topic: Education Comparison by Treatment")
-
-print(lgbtq_plot)
-print(billionaire_plot)
+# Print the final plot
+print(final_plot)
 
 ```
 

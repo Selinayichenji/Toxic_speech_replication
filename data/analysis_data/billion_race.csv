@@ -1,0 +1,68 @@
+"treatment","race","handle","percentage"
+"control","Black","Leave it, do nothing",95.8333333333333
+"control","Black","Reduce how many people can see the post",4.16666666666667
+"control","Hispanic","Leave it, do nothing",93.0232558139535
+"control","Hispanic","Permanently remove the post",2.32558139534884
+"control","Hispanic","Reduce how many people can see the post",4.65116279069767
+"control","Others","Leave it, do nothing",95.1219512195122
+"control","Others","Place a warning label on the post",2.4390243902439
+"control","Others","Reduce how many people can see the post",2.4390243902439
+"control","White","Leave it, do nothing",97.6923076923077
+"control","White","Place a warning label on the post",1.15384615384615
+"control","White","Reduce how many people can see the post",1.15384615384615
+"intolerant","Black","Leave it, do nothing",60.6060606060606
+"intolerant","Black","Permanently remove the post",6.06060606060606
+"intolerant","Black","Place a warning label on the post",24.2424242424242
+"intolerant","Black","Reduce how many people can see the post",6.06060606060606
+"intolerant","Black","Suspend the person’s account",3.03030303030303
+"intolerant","Hispanic","Leave it, do nothing",84.375
+"intolerant","Hispanic","Place a warning label on the post",15.625
+"intolerant","Others","Leave it, do nothing",94.6428571428571
+"intolerant","Others","Place a warning label on the post",1.78571428571429
+"intolerant","Others","Reduce how many people can see the post",3.57142857142857
+"intolerant","White","Leave it, do nothing",90.4214559386973
+"intolerant","White","Permanently remove the post",1.91570881226054
+"intolerant","White","Place a warning label on the post",5.3639846743295
+"intolerant","White","Reduce how many people can see the post",2.29885057471264
+"non-group-related","Black","Leave it, do nothing",94.8717948717949
+"non-group-related","Black","Place a warning label on the post",5.12820512820513
+"non-group-related","Hispanic","Leave it, do nothing",100
+"non-group-related","Others","Leave it, do nothing",98.3606557377049
+"non-group-related","Others","Reduce how many people can see the post",1.63934426229508
+"non-group-related","White","Leave it, do nothing",97.1074380165289
+"non-group-related","White","Place a warning label on the post",0.826446280991736
+"non-group-related","White","Reduce how many people can see the post",1.65289256198347
+"non-group-related","White","Suspend the person’s account",0.413223140495868
+"threatening","Black","Leave it, do nothing",64.7058823529412
+"threatening","Black","Permanently remove the post",5.88235294117647
+"threatening","Black","Place a warning label on the post",17.6470588235294
+"threatening","Black","Reduce how many people can see the post",5.88235294117647
+"threatening","Black","Suspend the person’s account",5.88235294117647
+"threatening","Hispanic","Leave it, do nothing",40.625
+"threatening","Hispanic","Permanently remove the post",9.375
+"threatening","Hispanic","Place a warning label on the post",31.25
+"threatening","Hispanic","Reduce how many people can see the post",18.75
+"threatening","Others","Leave it, do nothing",62.5
+"threatening","Others","Permanently remove the post",4.16666666666667
+"threatening","Others","Place a warning label on the post",22.9166666666667
+"threatening","Others","Reduce how many people can see the post",10.4166666666667
+"threatening","White","Leave it, do nothing",70.4280155642023
+"threatening","White","Permanently remove the post",5.44747081712062
+"threatening","White","Place a warning label on the post",15.9533073929961
+"threatening","White","Reduce how many people can see the post",4.28015564202335
+"threatening","White","Suspend the person’s account",3.89105058365759
+"uncivil","Black","Leave it, do nothing",75
+"uncivil","Black","Place a warning label on the post",21.4285714285714
+"uncivil","Black","Suspend the person’s account",3.57142857142857
+"uncivil","Hispanic","Leave it, do nothing",82.051282051282
+"uncivil","Hispanic","Place a warning label on the post",10.2564102564103
+"uncivil","Hispanic","Reduce how many people can see the post",7.69230769230769
+"uncivil","Others","Leave it, do nothing",83.9285714285714
+"uncivil","Others","Permanently remove the post",3.57142857142857
+"uncivil","Others","Place a warning label on the post",8.92857142857143
+"uncivil","Others","Reduce how many people can see the post",1.78571428571429
+"uncivil","Others","Suspend the person’s account",1.78571428571429
+"uncivil","White","Leave it, do nothing",80.9917355371901
+"uncivil","White","Permanently remove the post",4.13223140495868
+"uncivil","White","Place a warning label on the post",11.5702479338843
+"uncivil","White","Reduce how many people can see the post",3.30578512396694

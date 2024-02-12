@@ -1,0 +1,42 @@
+"treatment","gender","handle","percentage"
+"control","Female","Leave it, do nothing",96.6480446927374
+"control","Female","Permanently remove the post",0.558659217877095
+"control","Female","Place a warning label on the post",1.11731843575419
+"control","Female","Reduce how many people can see the post",1.67597765363128
+"control","Male","Leave it, do nothing",96.7567567567568
+"control","Male","Place a warning label on the post",1.08108108108108
+"control","Male","Reduce how many people can see the post",2.16216216216216
+"intolerant","Female","Leave it, do nothing",86.7403314917127
+"intolerant","Female","Permanently remove the post",2.76243093922652
+"intolerant","Female","Place a warning label on the post",7.18232044198895
+"intolerant","Female","Reduce how many people can see the post",2.76243093922652
+"intolerant","Female","Suspend the person’s account",0.552486187845304
+"intolerant","Male","Leave it, do nothing",89.6373056994819
+"intolerant","Male","Permanently remove the post",1.03626943005181
+"intolerant","Male","Place a warning label on the post",7.7720207253886
+"intolerant","Male","Reduce how many people can see the post",1.55440414507772
+"non-group-related","Female","Leave it, do nothing",98.3695652173913
+"non-group-related","Female","Reduce how many people can see the post",1.08695652173913
+"non-group-related","Female","Suspend the person’s account",0.543478260869565
+"non-group-related","Male","Leave it, do nothing",96.1538461538462
+"non-group-related","Male","Place a warning label on the post",2.1978021978022
+"non-group-related","Male","Reduce how many people can see the post",1.64835164835165
+"threatening","Female","Leave it, do nothing",67.8947368421053
+"threatening","Female","Permanently remove the post",4.21052631578947
+"threatening","Female","Place a warning label on the post",20
+"threatening","Female","Reduce how many people can see the post",6.31578947368421
+"threatening","Female","Suspend the person’s account",1.57894736842105
+"threatening","Male","Leave it, do nothing",62.5730994152047
+"threatening","Male","Permanently remove the post",7.60233918128655
+"threatening","Male","Place a warning label on the post",17.5438596491228
+"threatening","Male","Reduce how many people can see the post",7.01754385964912
+"threatening","Male","Suspend the person’s account",5.26315789473684
+"uncivil","Female","Leave it, do nothing",79.2134831460674
+"uncivil","Female","Permanently remove the post",2.24719101123596
+"uncivil","Female","Place a warning label on the post",14.6067415730337
+"uncivil","Female","Reduce how many people can see the post",3.93258426966292
+"uncivil","Male","Leave it, do nothing",82.68156424581
+"uncivil","Male","Permanently remove the post",4.46927374301676
+"uncivil","Male","Place a warning label on the post",9.49720670391061
+"uncivil","Male","Reduce how many people can see the post",2.23463687150838
+"uncivil","Male","Suspend the person’s account",1.11731843575419

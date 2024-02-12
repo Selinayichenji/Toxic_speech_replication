@@ -16,7 +16,7 @@ library(httr)
 #### Download data ####
 download_url_billion <- "https://dataverse.harvard.edu/api/access/datafile/7513335"
 download_url_lgbtq <- "https://dataverse.harvard.edu/api/access/datafile/7513334"
-download_url_partisans <- "https://dataverse.harvard.edu/api/access/datafile/7513334"
+download_url_partisans <- "https://dataverse.harvard.edu/api/access/datafile/7513362"
 
 destfile_billion <- "data/raw_data/billionaire.RData"
 destfile_lgbtq <- "data/raw_data/lgbtq.RData"

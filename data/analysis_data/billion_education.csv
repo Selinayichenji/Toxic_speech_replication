@@ -1,0 +1,59 @@
+"treatment","educ","handle","percentage"
+"control","College","Leave it, do nothing",97.3684210526316
+"control","College","Place a warning label on the post",1.05263157894737
+"control","College","Reduce how many people can see the post",1.57894736842105
+"control","High school graduate","Leave it, do nothing",97.979797979798
+"control","High school graduate","Reduce how many people can see the post",2.02020202020202
+"control","Postgraduate","Leave it, do nothing",92.9824561403509
+"control","Postgraduate","Permanently remove the post",1.75438596491228
+"control","Postgraduate","Place a warning label on the post",3.50877192982456
+"control","Postgraduate","Reduce how many people can see the post",1.75438596491228
+"intolerant","College","Leave it, do nothing",88.421052631579
+"intolerant","College","Permanently remove the post",2.10526315789474
+"intolerant","College","Place a warning label on the post",7.89473684210526
+"intolerant","College","Reduce how many people can see the post",1.05263157894737
+"intolerant","College","Suspend the person’s account",0.526315789473684
+"intolerant","High school graduate","Leave it, do nothing",86.1111111111111
+"intolerant","High school graduate","Permanently remove the post",1.85185185185185
+"intolerant","High school graduate","Place a warning label on the post",7.40740740740741
+"intolerant","High school graduate","Reduce how many people can see the post",4.62962962962963
+"intolerant","Postgraduate","Leave it, do nothing",90.1960784313726
+"intolerant","Postgraduate","Place a warning label on the post",5.88235294117647
+"intolerant","Postgraduate","Reduce how many people can see the post",3.92156862745098
+"non-group-related","College","Leave it, do nothing",98.2035928143712
+"non-group-related","College","Reduce how many people can see the post",1.79640718562874
+"non-group-related","High school graduate","Leave it, do nothing",98.1132075471698
+"non-group-related","High school graduate","Reduce how many people can see the post",0.943396226415094
+"non-group-related","High school graduate","Suspend the person’s account",0.943396226415094
+"non-group-related","Postgraduate","Leave it, do nothing",97.1428571428571
+"non-group-related","Postgraduate","Place a warning label on the post",1.42857142857143
+"non-group-related","Postgraduate","Reduce how many people can see the post",1.42857142857143
+"threatening","College","Leave it, do nothing",68.3908045977011
+"threatening","College","Permanently remove the post",5.74712643678161
+"threatening","College","Place a warning label on the post",18.9655172413793
+"threatening","College","Reduce how many people can see the post",5.17241379310345
+"threatening","College","Suspend the person’s account",1.72413793103448
+"threatening","High school graduate","Leave it, do nothing",67.2897196261682
+"threatening","High school graduate","Permanently remove the post",4.67289719626168
+"threatening","High school graduate","Place a warning label on the post",15.8878504672897
+"threatening","High school graduate","Reduce how many people can see the post",6.54205607476635
+"threatening","High school graduate","Suspend the person’s account",5.60747663551402
+"threatening","Postgraduate","Leave it, do nothing",71.1864406779661
+"threatening","Postgraduate","Permanently remove the post",3.38983050847458
+"threatening","Postgraduate","Place a warning label on the post",11.864406779661
+"threatening","Postgraduate","Reduce how many people can see the post",11.864406779661
+"threatening","Postgraduate","Suspend the person’s account",1.69491525423729
+"uncivil","College","Leave it, do nothing",81.8713450292398
+"uncivil","College","Permanently remove the post",1.75438596491228
+"uncivil","College","Place a warning label on the post",12.280701754386
+"uncivil","College","Reduce how many people can see the post",4.09356725146199
+"uncivil","High school graduate","Leave it, do nothing",81.8965517241379
+"uncivil","High school graduate","Permanently remove the post",3.44827586206897
+"uncivil","High school graduate","Place a warning label on the post",11.2068965517241
+"uncivil","High school graduate","Reduce how many people can see the post",2.58620689655172
+"uncivil","High school graduate","Suspend the person’s account",0.862068965517241
+"uncivil","Postgraduate","Leave it, do nothing",72.093023255814
+"uncivil","Postgraduate","Permanently remove the post",9.30232558139535
+"uncivil","Postgraduate","Place a warning label on the post",11.6279069767442
+"uncivil","Postgraduate","Reduce how many people can see the post",4.65116279069767
+"uncivil","Postgraduate","Suspend the person’s account",2.32558139534884
