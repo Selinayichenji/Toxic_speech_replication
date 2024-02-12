@@ -13,7 +13,8 @@ library(ggplot2)
 library(MetBrewer)
 library(cowplot)
 
-
+lgbtq <- read_csv(here::here("data/analysis_data/lgbtq.csv"))
+partisans <- read_csv(here::here("data/analysis_data/partisans.csv"))
 
 #Figure for LGBTQ Target
 data_wide <- lgbtq %>%
