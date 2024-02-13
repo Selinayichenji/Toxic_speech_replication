@@ -1,12 +1,12 @@
 ---
-title: "Public's Ideal Moderation to Online Toxic Speech"
+title: "Public's demand for moderation to online toxic speech is limited and influenced by social factors"
 author: 
   - Yichen Ji
   - Xiaoxu Liu
 thanks: "Code and data are available at: https://github.com/Selinayichenji/Toxic_speech_replication.git."
 date: "`r format(Sys.time(), '%d %B %Y')`"
 date-format: long
-abstract: "In this report,we analysis the public's ideal moderation for 5 levels toxic online speech.It was found that most people tend not to give harsh moderations, unless the speech touches upon personal threat. And people with different social factors have difference preferences on moderations.The findings will help me build a ideal standard platform for the public."
+abstract: "In this report,we analysis the public's ideal moderation for 5 levels toxic online speech.It was found that most people tend to not give harsh moderations, unless the speech touches upon personal threat. And people with different social factors have difference preferences on moderations.The findings will help me build a ideal standard platform for the public."
 format: pdf
 toc: true
 number-sections: true
@@ -30,30 +30,33 @@ library(grid)
 
 
 # Introduction
-*This reproduction was performed after a replication on the Social Science Reproduction platform:****[link here](https://www.socialsciencereproduction.org/reproductions/f4c25f83-2c8b-448e-be76-760e02694112/index)***
+*This reproduction was performed after a replication on the Social Science Reproduction platform:****[link here](https://www.socialsciencereproduction.org/reproductions/92dbc146-6de1-48bf-b567-a91e33747595/index)***
 
-
-The research has shown that roughly 4 in 10 Americans have experienced online harassment, including name-calling, physical threats, and sexual abuse (Pew Research Center 2021a).  With the current widespread use of social media, the debation of regulating toxic content becomes even more pertinent. Cultivating civility within democratic discourse is strongly necessary, such as emphasizing respect and social order when communicating online. However, the emergence of uncivil, intolerant content on social platforms raises concerns about its potential harm to public discourse and democracy. Our focus is on the crucial dilemma: should measures be implemented to moderate toxic content and uphold civility, or should we suggest allowing such speech on social media to remain unconstrained? The pursuit of addressing these challenges becomes significant in shaping the future of online democratic engagement.
-Although hate, harassment, and extremism significantly impact the country and online community negatively as toxic comments have saturated lots of common social media in the U.S., the application of strong and effective regulation over social media faces challenges due to multiple factors. Various factors, including technology companies, government, and NGOs, oppose the potential heavy regulation, which operates within a distinct legal framework in the U.S. Besides, Users, the ultimate recipients of online toxicity, are important in reporting objectionable content through flagging mechanisms. Therefore, we attempt to find the ideal platform standards from users' views to against toxic speech.
-
-We aim to apply the initial analysis from the original paper "Toxic Speech and Limited Demand for Content Moderation on Social Media", which is from the American Political Science Review. The paper attempts to figure out the consistency of how users reply to toxic speech when using social media to find an appropriate solution to improve the harmony of online platforms, and it includes two pieces of research: 1). targeting social groups and 2). targeting partisans. In our reproduction, we use the original methods and the same dataset and shift the concentration from the level of toxic speech to the types of users while extending the research with more specific prevalent aspects of the groups of people's responses. Instead of talking about how people respond to toxic speech toward different labels of victims (LGBTQ, billionaire, and Christian) in study 1 of the original paper, we expand the study range to how people with different genders, education levels, and races react to toxic speech toward LGBTQ, billionaires, and so on. Beyond the changes, we hold all other perspectives to be the same as the original paper. For example, we set standards of toxic speech with different levels: incivility (disrespectful tone, lack of respect, rudeness, and inconsiderate language), intolerance (derogating, silencing, or undermining particular groups with specified labels), and violent threats(the tendency of physical harm). 
-
-  We obtain the result of the reproduction work and find that women (gender), high school graduates (education), and Blacks / Hispanics (races) imply a tendency to be more sensitive to high-level toxic speech on social media; on the other side, men, high school graduates, and Blacks tend to be more sensitive to the billionaires target overall. The research result provides us with the information that 1). Different groups of people hold different attitudes and behaviors toward topic speech with different targets and 2). People usually want a more loose-controlled online environment and choose no heavy moderation toward heavy speech. These help us understand the user preference in social media, and stimulate the appropriate regulations of the speeches on online platforms. Generally, the reproduction talks about the summary of what we do based on the original paper and what we obtain, the data sources, detailed pictures and analysis through coding, and the discussion that concludes our results and lessons while discussing (potential) drawbacks and anticipated regulations/behaviors in the future.  (can be improved)
+  The research has shown that roughly 4 in 10 Americans have experienced online harassment, including name-calling, physical threats, and sexual abuse [@fouroften].  With the current widespread use of social media, the debation of regulating toxic content becomes even more pertinent. Cultivating civility within democratic discourse is strongly necessary, such as emphasizing respect and social order when communicating online. However, the emergence of uncivil, intolerant content on social platforms raises concerns about its potential harm to public discourse and democracy. Our focus is on the crucial dilemma: should measures be implemented to moderate toxic content and uphold civility, or should we suggest allowing such speech on social media to remain unconstrained? The pursuit of addressing these challenges becomes significant in shaping the future of online democratic engagement.
+      
+  Although hate, harassment, and extremism significantly impact the country and online community negatively as toxic comments have saturated lots of common social media in the U.S., the application of strong and effective regulation over social media faces challenges due to multiple factors. Various factors, including technology companies, government, and NGOs, oppose the potential heavy regulation, which operates within a distinct legal framework in the U.S. Besides, Users, the ultimate recipients of online toxicity, are important in reporting objectionable content through flagging mechanisms. Therefore, we attempt to find the ideal platform standards from users' views to against toxic speech.    
+     
+  We aim to apply the initial analysis from the original paper "Toxic Speech and Limited Demand for Content Moderation on Social Media", which is from the American Political Science Review. The paper attempts to figure out the consistency of how users reply to toxic speech when using social media to find an appropriate solution to improve the harmony of online platforms, and it includes two pieces of research: 1. targeting social groups and 2. targeting partisans.    
+      
+   In our reproduction, we use the original methods and the same dataset and shift the concentration from the level of toxic speech to the types of users while extending the research with more specific prevalent aspects of the groups of people's responses. Instead of talking about how people respond to toxic speech toward different labels of victims (LGBTQ, billionaire, and Christian) in study 1 of the original paper, we focused on how people with different genders, education levels, and races react to toxic speech toward LGBTQ. The estimand of our paper is differences of tendency of giving content moderation among people with different gender, race and education level when they face the toxic speech's target is LGBTQ.Beyond the changes, we hold all other perspectives to be the same as the original paper. 
+      
+       
+  We obtain the result of the reproduction work and find that white people, people have postgraduate degree and man tend to give slighter moderation than other groups. Woman and black people tend to give serious moderation than others. The research result provides us with the information that:
+ - In the traditional sense, socially advantaged groups tend to propose more lenient content moderation measures when the LGBTQ community is attacked, whereas disadvantaged groups are inclined to penalize speech that attacks the LGBTQ community.
+- People usually want a more loose-controlled online environment and choose no heavy moderation toward heavy speech. 
+      
+  These help us understand the user preference in social media, and stimulate the appropriate regulations of the speeches on online platforms. Generally, the reproduction talks about the summary of what we do based on the original paper and what we obtain, the data sources, detailed pictures and analysis through coding, and the discussion that concludes our results and lessons while discussing (potential) drawbacks and anticipated regulations/behaviors in the future. 
   
-ESTIMATE
-
-
+  The paper introduces the basic information contains data source, methodology, variables and measurements in @sec-data. The visualization and analysis of the tendency differences in moderation by people across three social factors are presented in @sec-result. And in @sec-dis, we discuss what we have learned, our understanding of the world, the limitations, and the next steps of our research. @sec-app is for appendix and @sec-ref is listed all references in this paper.
+  
 
 # Data {#sec-data}
 
 ## Source
 
-Our replication paper is based on the original paper in American Political Science Review  “Toxic Speech and Limited Demand for Content Moderation on Social Media". Our paper is consistent with the original goal that attempts to find how people respond to toxic speech with different targets to decide the moderation of social media for a respectful and harmonious environment. 
+Our replication paper is based on the original paper in American Political Science Review  “Toxic Speech and Limited Demand for Content Moderation on Social Media". Our paper is consistent with the original goal that attempts to find how people respond to toxic speech with different targets to decide the moderation of social media for a respectful and harmonious environment. The dataset and replication package is open on the Harvard Dataverse website. For the data in LGBTQ target, the only esstential one is lgbtq.RData in the replication package.
 
-
-This paper applies the same sources as the original paper does, which consists of Papacharissi (2004, in particular pages 261–7), Herbst (2010), and Boatright et al. (2019); national laws (Busch 2022; European Parliament 2022); Brandeis notes in Whitney v. California 1927, “Partisan Conflict over Content Moderation Is More Than Disagreement about Facts.” (Appel, Pan, and Roberts Reference Appel, Pan and Roberts 2023; Kozyreva et al. Reference Kozyreva, Herzog, Lewandowsky, Hertwig, Lorenz-Spreen, Leiser and Reifler 2023), BBC. 2012. “Reddit Will Not Ban ‘Distasteful’ Content, Chief Executive Says”, Bejan, Teresa M. 2017. Mere Civility. Cambridge, and so on.
-
-Similar dataset
+The data came from the survey results collected by the authors of original paper. So there is no other similar datasets for same research.
 
 
 ## Methodology
@@ -62,14 +65,14 @@ Our paper applies using the statistical programming language R [@citeR]. Besides
 
 
 ## Variables
-We only introduced the variables used in our own analysis. For the full variables from the original paper, please check the Appendix.
+We only introduced the variables used in our own analysis. For the full variables in survey from the original paper, please check the Appendix.
 
 - Treatment: non-group-related control, control, uncivil, intolerant and threatening.
    - Non-group-related control means no target and no toxic language.
-Control means anti-target but without the 3 kinds of toxic languages: uncivil, intolerant and threatening. 
-In original paper, uncivil is defined as "including anything from an unnecessarily disrespectful tone and lack of respect to rudeness and inconsiderate language."[@paper]. 
-And the intolerance differs from incivility, "it aims to derogate, silence, or undermine particular groups due to their protected characteristics, attack their rights, and incite violence and harm."[@paper].
-The threatening is a toxic behavior explicitly announces the intention of physical harm.[@paper].
+   - Control means anti-target but without the 3 kinds of toxic languages: uncivil, intolerant and threatening. 
+   - Uncivil was defined as "including anything from an unnecessarily disrespectful tone and lack of respect to rudeness and inconsiderate language."[@paper]. 
+   - The intolerance differs from incivility, "it aims to derogate, silence, or undermine particular groups due to their protected characteristics, attack their rights, and incite violence and harm."[@paper].
+   - The threatening is a toxic behavior explicitly announces the intention of physical harm.[@paper].
 
 - Handle: (1) Leave it, do nothing; (2) Place a warning label on the post; (3) Reduce how many people can see the post; (4) Permanently remove the post; (5) Suspend the person’s account.
 
@@ -80,15 +83,26 @@ The threatening is a toxic behavior explicitly announces the intention of physic
 
 
 ## Measurement
-The data collected by using survey.
 
-## Structure of the paper'remainder parts
+The data collected by using survey. In the study I (target social group), targets include LGBTQ, Billionaire and Christians.
+The study measures participants' preferences for handling toxic speech on social media by asking them to react to posts on social media platforms. Specifically, the research measures participants' preferences through the following question:
+
+- "In your view, how should social media companies (such as Facebook and Twitter) handle the post above?" Participants can choose from the following options:
+   - "Leave it, do nothing"
+   - "Place a warning label on the post"
+   - "Reduce how many people can see the post"
+   - "Permanently remove the post"
+   - "Suspend the person’s account"
+
+These options allow participants to express their preferences for the actions social media platforms should take regarding toxic speech. By observing participants' choices among these options, researchers can understand participants' varying preferences for content moderation on social media platforms under different experimental conditions.
+
+The experiments took place in July 2022 (LGBTQ and Billionaires) and October 2022 (Christians). Each study recruited between 1,300 and 2,000 U.S. adults from the participant pool of the crowdsourcing platform Prolific. Participants were recruited according to specific procedures outlined in the APSR Dataverse (Pradel et al. 2024). Exclusion criteria, as pre-registered, included participants who failed the attention check, opted for exclusion from the study, or completed the survey in less than 50 seconds. Ethics approval was obtained from the Central University Research Ethics Committee of the University of Oxford, and the study design was pre-registered prior to data collection.[@paper]
 
 
 \newpage
 # Results {#sec-result}
 
-Our results are summarized in @tbl-modelresults.
+We selected 3 social factors (gender, education level and race) to investigate people's moderation preference in LGBTQ Target toxic speech.
 
 ```{r}
 #| echo: false
@@ -155,13 +169,14 @@ ggplot(data_long, aes(x = fct_rev(treatment), y = percent, fill = handle)) +
   scale_y_continuous(expand = expansion(add = c(0, 0)))
 ```
 
-@fig-lgbtq-rep
+@fig-lgbtq-rep illustrates the general percentages of 5 different handles in 5 levels toxic speech targets LGBTQ
+. As shown on the @fig-lgbtq-rep, the serious content moderation takes more percentage as the toxic level increases. The interviewees are especially sensitive to threatening post to LGBTQ people. For no group mentioned post, most people choose to leave it, a few people put a warning. But in Threatening post, the percentages of permanently remove the post and suspend the account increase obviously, and that of other 3 decrease compared to Intolerant post, which means people choose to let those posts disappear instead other indirect moderation.
 
 
-```{r gender_plot, fig.width=10, fig.height=6}
+```{r, fig.width=10, fig.height=6}
 #| echo: false
 #| eval: true
-#| label: gender comparision in LGBTQ
+#| label: fig-gender
 #| warning: false
 
 result_l_gender$mapped_treatment <- as.integer(factor(result_l_gender$treatment, 
@@ -187,11 +202,15 @@ grid.text("5: threatening", x = 0.8, y = 0.15, just = "right")
 
 ```
 
+In @fig-gender, @fig-race and @fig-educ, we visualize the difference of tendency of different groups' moderation. The plots arranges in order of the seriousness of moderation. 
 
-```{r race_plot, fig.width=10, fig.height=6}
+From @fig-gender, female tends to give more harsh moderation than male. The percentage of slightest moderation (leave it, do nothing) in male group is about 12.5% higher than that of woman in all levels toxic speech. Oppositely, the percentages of permanently remove the post and place a warning label in female group are obviously higher than male about 7%. To reduce post' view and suspend account, there is no obvious difference between 2 groups.
+
+
+```{r, fig.width=10, fig.height=6}
 #| echo: false
 #| eval: true
-#| label: race comparision in LGBTQ
+#| label: fig-race
 #| warning: false
 
 result_l_race$mapped_treatment <- as.integer(factor(result_l_race$treatment, 
@@ -219,10 +238,10 @@ grid.text("5: threatening", x = 0.78, y = 0.15, just = "right")
 ```
 
 
-```{r educ_plot, fig.width=10, fig.height=6}
+```{r, fig.width=10, fig.height=6}
 #| echo: false
 #| eval: true
-#| label: education comparision in LGBTQ
+#| label: fig-educ
 #| warning: false
 
 result_l_edu$mapped_treatment <- as.integer(factor(result_l_edu$treatment, 
@@ -249,139 +268,108 @@ grid.text("5: threatening", x = 0.73, y = 0.15, just = "right")
 
 ```
 
+As shown on @fig-race, white people tend to give slighter moderation than other races. Black people tend to give the harshest moderation among all races.
+In @fig-educ, people with postgraduate degree tend to give slighter moderation on toxic speech. No obvious difference between College and High school graduates groups.
 
 
 
-```{r fig.width=12, fig.height=7.5}
-#| echo: false
-#| eval: true
-#| warning: false
 
-# Function to prepare data
-prepare_data <- function(partisans, target_partisan) {
-  partisans %>%
-    filter(partisan == target_partisan | treatment == "non-group-related control") %>% 
-    mutate(treatment = factor(treatment, 
-                              levels = c("non-group-related control", "control", 
-                                         "uncivil", "intolerant", "threatening"), 
-                              labels = c("No group mentioned", "Anti-target", 
-                                         "Uncivil post", "Intolerant post", "Threatening post"))) %>%
-    count(treatment, handle) %>%
-    pivot_wider(names_from = handle, values_from = n, values_fill = list(n = 0)) %>%
-    mutate(total = rowSums(across(-treatment))) %>%
-    mutate(across(-c(treatment, total), ~ .x / total * 100)) %>%
-    pivot_longer(-c(treatment, total), names_to = "handle", values_to = "percent") %>%
-    arrange(desc(treatment)) %>%
-    mutate(handle = iconv(handle, from = "UTF-8", to = "ASCII", sub = "'")) # Convert non-ASCII characters to ASCII
-}
+\newpage
 
+# Discussion {#sec-dis}
 
-# Function to generate plot with legend and bold title
-generate_plot <- function(data_long, show_legend = FALSE) {
-  p <- ggplot(data_long, aes(x = fct_rev(treatment), y = percent, fill = handle)) +
-    geom_bar(stat = "identity", width = 0.5) +
-    theme_bw() +
-    theme(
-      legend.position = "none",  # We will place the legend manually
-      axis.title.x = element_blank(),
-      axis.text.y = element_text(face = "bold"),
-      axis.text.x = element_blank(),
-      plot.margin = margin(5.5, 10, 5.5, 5.5)
-    ) +
-    scale_fill_met_d(name = "Degas", direction = -1) +
-    labs(x = "", y = "Percent", fill = "") +
-    coord_flip() +
-    scale_y_continuous(expand = expansion(add = c(0, 0)))
+## What we did
 
-  if (show_legend) {
-    p <- p + theme(legend.position = "bottom") + 
-      guides(
-        fill = guide_legend(
-          title = "How should social media companies \nhandle the post?",
-          title.position = "left", 
-          ncol = 3, 
-          byrow = TRUE 
-        )
-      )
-  }
+We replicated 3 figures contains 2 panels "Target LGBTQ" and "Target: Billionaires" in Figure3 "Preferences for Content Moderation by Treatment and by Experiment in Study I" and 1 element, Figure 6 "Preferences for Specific Types of Content Moderation by Treatment in Study II" from the paper “Toxic Speech and Limited Demand for Content Moderation on Social Media". Only the "Target LGBTQ" is shown in the paper as @fig-lgbtq-rep. The other figures' replication are in the scripts folder in Github, please check the link in the first page.
 
-  return(p)
-}
-
-democrats_data_long <- prepare_data(partisans, "target: democrats")
-republicans_data_long <- prepare_data(partisans, "target: republicans")
-
-# Generate plots for Democrats and Republicans without individual titles
-democrats_plot <- generate_plot(democrats_data_long)
-republicans_plot <- generate_plot(republicans_data_long)
-
-# Generate a plot with a legend to extract it
-legend_plot <- generate_plot(democrats_data_long, TRUE) # Title is irrelevant here
-
-# Extract the legend from the legend plot
-legend <- get_legend(legend_plot)
-
-# Combine plots and align the labels correctly
-combined_plot <- plot_grid(
-  democrats_plot + theme(plot.margin = margin(10, 10, 40, 5.5)), # Increase the top margin
-  republicans_plot + theme(plot.margin = margin(10, 10, 40, 5.5)),
-  labels = c("Target: Democrats", "Target: Republicans"),
-  label_size = 12,
-  label_fontface = "bold",
-  hjust = -0.5, # Adjust horizontal position of labels
-  vjust = 1.5,  # Adjust vertical position of labels
-  ncol = 2
-)
-
-# Place the legend below the plots
-final_plot <- plot_grid(
-  combined_plot,
-  legend,
-  ncol = 1,
-  rel_heights = c(1, 0.2) # Adjust these values as needed
-)
-
-# Print the final plot
-print(final_plot)
-
-```
-
-
-
-# Discussion
+Different from the original paper, we focused on the 3 social factors groups' difference of preference on content moderation by treatment. By using the percentages' differences, we avoids the issue of 
 
 ## What we acquire {#sec-first-point}
 
-In the paper, the result represents a trend that users prefer to do nothing to the toxic speech even if they may be affected negatively. The first study indicates that people are more likely to react to a toxic speech by reducing how many people can see the post or suspending the account if the target is LGBTQ and there is not much difference if the targets are billionaires or Christians. The second study implies that Democrats may tend to protect LGBTQ more while Republicans care about Christians more. In contrast with these, our reproduction acquires more detailed conclusions from three slightly different perspectives. From gender sight, men tend to agree with higher punishment than women do toward billionaires from gender sight, while women show a stronger tendency to protect LGBTQ than men do. From the education level perspective, those who are high school graduates tend to exhibit more protective behaviors when dealing with higher levels of toxic speech while those who are postgraduate act more sensitively to the uncivil levels. From the race perspective, Blacks and Hispanics are usually more sensitive to the LGBTQ and billionaires target overall.
+In the paper, the result represents a trend that users prefer to do nothing to the toxic speech even if they may be affected negatively. The first study indicates that people are more likely to react to a toxic speech by reducing how many people can see the post or suspending the account if the target is LGBTQ and there is not much difference if the targets are billionaires or Christians. The second study implies that Democrats may tend to protect LGBTQ more while Republicans care about Christians more. In contrast with these, our reproduction acquires more detailed conclusions from three slightly different perspectives. From gender sight, women show a stronger tendency to protect LGBTQ than men do. From the education level perspective, those who are high school graduates tend to exhibit more protective behaviors when dealing with higher levels of toxic speech while those who are postgraduate act more sensitively to the uncivil levels. From the race perspective, Blacks are usually more sensitive to the LGBTQ target overall.
 
 
-## What we learn: Diverse Consequences of Different Toxic Speech Types
+## What we learn: Point 1: Diverse Consequences of Different Toxic Speech Types {#sec-second-point}
 The study challenges past research by revealing various types of toxic speech, including incivility, intolerance, and violent threats. Unlike previous work that often focused solely on labeling manifestations of incivility, this research connects toxic speech types to their consequences. It introduces a nuanced perspective, suggesting that users perceive these speech types as distinct constructs. While intolerance and incivility prompt similar content moderation responses, the study highlights the empirical insight that users view them differently, considering incivility a matter of tone and intolerance a matter of substance, such as discrimination.
 
 
-## Point 2: Limited Support for Content Moderation
+## Point 2: Limited Support for Content Moderation {#sec-third-point}
 A significant finding is the overall low support for content moderation of uncivil and intolerant content. The majority of respondents express the view that such content should remain online, with censorious forms of moderation, like banning users or removing content, being among the least favored options. Even when presented with extreme cases of toxic speech, such as attacks on the LGBTQ community, a large portion of respondents do not advocate for content moderation. This raises concerns about the broader implications for public discourse, as a substantial portion of users seems reluctant to endorse content moderation, even in the face of highly objectionable speech.
 
-## Point 3: Partisan Consistency and New Research Avenues
+## Point 3: Partisan Consistency and New Research Avenues {#sec-fourth-point}
 Contrary to expectations in an era of affective polarization, the study finds limited evidence that users view moderation of toxic speech through partisan lenses. Democrats, in general, show a greater tendency to demand moderation, but the identity of the victim (Republican or Democrat) does not significantly influence partisans' views. This finding opens up a new research puzzle, suggesting that Americans' strong belief in the value of freedom of speech might be a driving factor. The study calls for further exploration into whether this trend persists in other countries with different legal frameworks. The results emphasize the need to understand content moderation preferences beyond partisan lines and suggest that Americans, despite political polarization, exhibit consistency in their views on this matter.
 
-## Weaknesses and next steps
+## Weaknesses {#sec-weak}
+The primary limitation of our research stems from the lack of modeling. The absence of models means that we do not account for potential interactions between different social factors and how they may collectively influence moderation behaviors. This gap is significant because different social groups may have varying degrees of influence on content moderation decisions, and without proper weighting in our analysis, the results might not fully reflect the complexities of these interactions.
 
-Weaknesses and next steps should also be included.
+Moreover, another limitation is related to the representativeness of our sample. The percentages of different social factor groups in our survey may not accurately mirror the actual composition of society. This discrepancy can lead to skewed results, as the moderation tendencies we observe may be over or under-represented due to sampling bias. For example, if a social factor group that is more likely to advocate for stricter moderation is under-represented in the survey, our findings may underestimate the desire for such moderation across the population.
+
+The survey results involve the interpretation of social tendencies toward content moderation, which are inherently nuanced and subject to the cultural and social dynamics within each group. However, our current approach does not allow us to explore these dynamics in depth, which could provide valuable insights into the reasons behind the observed moderation preferences.
+
+## Next steps
+To address these limitations, our next steps involve the introduction of statistical models, such as regression analyses, which can help us understand the weight and impact of each social factor on moderation decisions. Regression models would allow us to control for various covariates and examine the independent effect of each variable. By doing so, we can also investigate interaction effects, providing a more nuanced understanding of how multiple social factors may interplay to influence content moderation behaviors.
+
+Additionally, efforts should be made to ensure that our sample is more reflective of society's actual demographic composition. This could involve stratified sampling or weighting survey responses to match the demographic makeup of the population. Implementing these methods will likely result in more generalizable and accurate findings that can better inform content moderation policies and practices.
+
 
 \newpage
 
 \appendix
 
-# Appendix {-}
+# Appendix {#sec-app}
 
+```{r}
+#| echo: false
+#| eval: false
+#| label: tab-appendix
+#| warning: false
+library(gt)
 
+# Create a data frame with your table's content
+survey_questions <- data.frame(
+  Variable = c("... Support of any form of moderation", "... Political Identity", "... Social media visits", "... Age", "... Gender", "... Education", "... Race/Ethnicity", "... Attention Check", "... Emotions", "... Preference for removing the post"),
+  Question = c(
+    "In your view, how should social media companieslike Facebook and Twitter handle the post above?",
+    "Generally speaking, do you consider yourself as being a Republican, a Democrat or an Independent?",
+    "Overall, how often would you say you visit social media platforms (Twitter, Facebook, etc.)?",
+    "What is your age?",
+    "What is your gender?",
+    "What is your highest level of educational qualification?",
+    "What is your ethnicity?",
+    "Please indicate your agreement with the following statement below. For our survey, it is essential that participants pay attention. To show us that you are reading this, please select both “Somewhat agree” and “Strongly agree” here.",
+    "Which of the following emotions best describe your feelings about this social media post?",
+    "Overall, how strongly do you feel this post should be kept or removed?"
+  ),
+  Response = c(
+    "Leave it, do nothing (1), Place a warning label on the post (2), Reduce how many people can see the post (3), Permanently remove the post (4), Suspend the person’s account (5)",
+    "Strong Democrat (1), Democrat (2), Leaning Democrat (3), Independent (4), Leaning Republican (5), Republican (6), Strong Republican (7)",
+    "Every day (1) At least once a week but not every day (2), A few times a month (3), Less often (4)",
+    "[Open text box]",
+    "Female (1), Male (2), Other (3)",
+    "Less than high school (1), High school graduate (2), Professional degree (3), College (4), Postgraduate (e.g. Masters) (5), PhD (6)",
+    "White (1), Black or African American (2), American Indian or Alaska Native (3), Asian (4), Native Hawaiian or Pacific Islander (5), Hispanic (6), Other (7)",
+    "Strongly disagree (1), Somewhat disagree (2), Neither agree nor disagree (3), Somewhat agree (4), Strongly agree (5) (Multiple selection is possible)",
+    "Anger (Slider 0-100), Enthusiasm (Slider 0-100), Disgust (Slider 0-100), Fear (Slider 0-100), Happiness (Slider 0-100)",
+    "Slider 0 (Keep the post) - 100 (Remove the post)"
+  )
+)
+
+gt_table <- gt(survey_questions) %>%
+  tab_header(
+    title = "Table S1: Overview of survey questions and variables"
+  ) %>%
+  cols_label(
+    Variable = "Variable",
+    Question = "Question",
+    Response = "Response categories"
+  )
+```
 
 
 
 \newpage
 
 
-# References
+# References {#sec-ref}
 
 

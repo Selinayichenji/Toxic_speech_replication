@@ -14,6 +14,7 @@ library(MetBrewer)
 library(cowplot)
 
 lgbtq <- read_csv(here::here("data/analysis_data/lgbtq.csv"))
+billion <- read_csv(here::here("data/analysis_data/billion.csv"))
 partisans <- read_csv(here::here("data/analysis_data/partisans.csv"))
 
 #Figure for LGBTQ Target
@@ -55,6 +56,44 @@ ggplot(data_long, aes(x = fct_rev(treatment), y = percent, fill = handle)) +
   coord_flip() +
   scale_y_continuous(expand = expansion(add = c(0, 0)))
 
+#Figure for billionaire target
+data_wide <- billion %>%
+  count(treatment, handle) %>%
+  pivot_wider(names_from = handle, values_from = n, values_fill = list(n = 0)) %>%
+  mutate(total = rowSums(across(-treatment)))
+
+data_wide <- data_wide %>%
+  mutate(across(-c(treatment, total), ~ .x / total * 100))
+
+data_long <- data_wide %>%
+  pivot_longer(-c(treatment, total), names_to = "handle", values_to = "percent") %>%
+  arrange(desc(treatment))
+
+data_long <- data_long %>%
+  mutate(treatment = factor(treatment, levels = c("non-group-related control","control", "uncivil", "intolerant","threatening"), 
+                            labels = c("No group mentioned", "Anti-target", "Uncivil post","Intolerant post","Threatening post")))
+
+
+data_long$handle <- gsub("’", "'", data_long$handle)
+
+ggplot(data_long, aes(x = fct_rev(treatment), y = percent, fill = handle)) +
+  geom_bar(stat = "identity",width = 0.5) +
+  theme_bw()+
+  theme(
+    legend.position = "bottom",
+    legend.key.size = unit(0.3, "lines"),
+    axis.title.y = element_text(face = "bold")
+  ) +
+  scale_fill_met_d(name = "Degas", direction = -1)+
+  guides(
+    fill = guide_legend(title = "How should social media \ncompanies handle the post?",
+                        title.position = "left",
+                        ncol = 3,# Position the title at the top
+                        byrow = TRUE)  # Arrange items by row
+  ) +
+  labs(x = "", y = "Percent", fill = "") +
+  coord_flip() +
+  scale_y_continuous(expand = expansion(add = c(0, 0)))
 
 
 # Figures for partisans
