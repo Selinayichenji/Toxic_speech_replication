@@ -1,7 +1,6 @@
 ---
 title: "99-replications"
 format: pdf
----
 #### Preamble ####
 # Purpose: Transform the raw data into csv format and clean out useless columns
 # Author: Yichen Ji, Xiaoxu Liu
@@ -9,8 +8,9 @@ format: pdf
 # Contact: yic.ji@mail.utoronto.ca, xiaoxu.liu@mail.utoronto.ca
 # License: MIT
 # Pre-requisites: Download tidyverse package
-# Any other information needed? No.
-## Quarto
+# Any other information needed? Download all packages in the first chunck
+---
+
 
 
 ```{r}
@@ -37,14 +37,14 @@ partisans <- read_csv(here::here("data/analysis_data/partisans.csv"))
 
 ```
 
-```{r lgbtq_rep, fig.width=4.7, fig.height=4}
+
+
+```{r, fig.width=5.5, fig.height=4}
 #| echo: false
 #| eval: true
+#| label: fig-lgbtq-rep
+#| fig-cap: Preferred actions in response to distinct post types - LGBTQ
 #| warning: false
-
-library(dplyr)
-library(tidyr)
-library(MetBrewer)
 
 data_wide <- lgbtq %>%
   count(treatment, handle) %>%
@@ -59,37 +59,47 @@ data_long <- data_wide %>%
   arrange(desc(treatment))
 
 data_long <- data_long %>%
-  mutate(treatment = factor(treatment, levels = c("non-group-related control","control", "uncivil", "intolerant","threatening"), 
+  mutate(treatment = factor(treatment, levels = c("non-group-related","control", "uncivil", "intolerant","threatening"), 
                             labels = c("No group mentioned", "Anti-target", "Uncivil post","Intolerant post","Threatening post")))
 
 
 data_long$handle <- gsub("’", "'", data_long$handle)
 
 ggplot(data_long, aes(x = fct_rev(treatment), y = percent, fill = handle)) +
-  geom_bar(stat = "identity",width = 0.5) +
-  theme_bw()+
+  geom_bar(stat = "identity", width = 0.5) +
+  theme_bw() +
   theme(
-    legend.position = "bottom",
-    legend.key.size = unit(0.3, "lines"),
+    plot.margin = margin(10.5, 20.5, 20.5, 5.5),
+    legend.position = c(0.35, -0.17), 
+    legend.key.size = unit(0.4, "lines"), 
+    legend.text = element_text(size = 5), 
+    legend.title = element_text(size = 7), 
     axis.title.y = element_text(face = "bold")
   ) +
-  scale_fill_met_d(name = "Degas", direction = -1)+
-   guides(
-    fill = guide_legend(title = "How should social media \ncompanies handle the post?",
-                        title.position = "left",
-                        ncol = 3,# Position the title at the top
-                        byrow = TRUE)  # Arrange items by row
+  scale_fill_met_d(name = "Degas", direction = -1) +
+  guides(
+    fill = guide_legend(
+      title = "How should social media \ncompanies handle the post?",
+      title.position = "left",
+      ncol = 3,
+      byrow = TRUE
+    )
   ) +
   labs(x = "", y = "Percent", fill = "") +
+  labs(title = "Target: LGBTQ") +
+  theme(
+    plot.title = element_text(hjust = -0.295, size = 9, face = "bold")
+  )+
   coord_flip() +
   scale_y_continuous(expand = expansion(add = c(0, 0)))
 ```
 
-```{r billion_rep, fig.width=4.7, fig.height=4}
+```{r, fig.width=5.5, fig.height=4}
 #| echo: false
 #| eval: true
+#| label: fig-billion-rep
+#| fig-cap: Preferred actions in response to distinct post types - Billionaire
 #| warning: false
-
 
 data_wide <- billion %>%
   count(treatment, handle) %>%
@@ -104,38 +114,49 @@ data_long <- data_wide %>%
   arrange(desc(treatment))
 
 data_long <- data_long %>%
-  mutate(treatment = factor(treatment, levels = c("non-group-related control","control", "uncivil", "intolerant","threatening"), 
+  mutate(treatment = factor(treatment, levels = c("non-group-related","control", "uncivil", "intolerant","threatening"), 
                             labels = c("No group mentioned", "Anti-target", "Uncivil post","Intolerant post","Threatening post")))
 
 
 data_long$handle <- gsub("’", "'", data_long$handle)
 
 ggplot(data_long, aes(x = fct_rev(treatment), y = percent, fill = handle)) +
-  geom_bar(stat = "identity",width = 0.5) +
-  theme_bw()+
+  geom_bar(stat = "identity", width = 0.5) +
+  theme_bw() +
   theme(
-    legend.position = "bottom",
-    legend.key.size = unit(0.3, "lines"),
+    plot.margin = margin(10.5, 20.5, 20.5, 5.5),
+    legend.position = c(0.35, -0.17), 
+    legend.key.size = unit(0.4, "lines"), 
+    legend.text = element_text(size = 5), 
+    legend.title = element_text(size = 7), 
     axis.title.y = element_text(face = "bold")
   ) +
-  scale_fill_met_d(name = "Degas", direction = -1)+
-   guides(
-    fill = guide_legend(title = "How should social media \ncompanies handle the post?",
-                        title.position = "left",
-                        ncol = 3,# Position the title at the top
-                        byrow = TRUE)  # Arrange items by row
+  scale_fill_met_d(name = "Degas", direction = -1) +
+  guides(
+    fill = guide_legend(
+      title = "How should social media \ncompanies handle the post?",
+      title.position = "left",
+      ncol = 3,
+      byrow = TRUE
+    )
   ) +
   labs(x = "", y = "Percent", fill = "") +
+  labs(title = "Target: Billionaires") +
+  theme(
+    plot.title = element_text(hjust = -0.24, size = 9, face = "bold")
+  )+
   coord_flip() +
   scale_y_continuous(expand = expansion(add = c(0, 0)))
 ```
 
 
-```{r fig.width=12, fig.height=7.5}
+
+```{r fig.width=13, fig.height=7.8}
 #| echo: false
 #| eval: true
 #| warning: false
-
+partisans <- partisans %>%
+  mutate(handle = gsub("Suspend the person’s account", "Suspend the person's account", handle))
 
 # Function to prepare data
 prepare_data <- function(partisans, target_partisan) {
@@ -151,8 +172,7 @@ prepare_data <- function(partisans, target_partisan) {
     mutate(total = rowSums(across(-treatment))) %>%
     mutate(across(-c(treatment, total), ~ .x / total * 100)) %>%
     pivot_longer(-c(treatment, total), names_to = "handle", values_to = "percent") %>%
-    arrange(desc(treatment)) %>%
-    mutate(handle = iconv(handle, from = "UTF-8", to = "ASCII", sub = "'")) # Convert non-ASCII characters to ASCII
+    arrange(desc(treatment))
 }
 
 
@@ -163,8 +183,8 @@ generate_plot <- function(data_long, show_legend = FALSE) {
     theme_bw() +
     theme(
       legend.position = "none",  # We will place the legend manually
-      axis.title.x = element_text(size = 12),
-      axis.text.y = element_text(face = "bold"),
+      axis.title.x = element_text(size = 13.5),
+      axis.text.y = element_text(size = 12),
       axis.text.x = element_text(size = 12),
       plot.margin = margin(5.5, 10, 5.5, 5.5)
     ) +
@@ -174,7 +194,7 @@ generate_plot <- function(data_long, show_legend = FALSE) {
     scale_y_continuous(expand = expansion(add = c(0, 0)))
 
   if (show_legend) {
-    p <- p + theme(legend.position = "bottom") + 
+    p <- p + theme(legend.position = c(0.49, 0.42)) + 
       guides(
         fill = guide_legend(
           title = "How should social media companies \nhandle the post?",
@@ -182,14 +202,20 @@ generate_plot <- function(data_long, show_legend = FALSE) {
           ncol = 3, 
           byrow = TRUE 
         )
-      )
-  }
+      )+
+    theme(
+      legend.title = element_text(size=14),
+      legend.text = element_text(size=11.45),
+      legend.key.size = unit(0.8, "lines"),
+      legend.spacing.x = unit(0.4, "cm")
+    )
+ }
 
   return(p)
 }
 
-democrats_data_long <- prepare_data(iit_partisans_selected, "target: democrats")
-republicans_data_long <- prepare_data(iit_partisans_selected, "target: republicans")
+democrats_data_long <- prepare_data(partisans, "target: democrats")
+republicans_data_long <- prepare_data(partisans, "target: republicans")
 
 # Generate plots for Democrats and Republicans without individual titles
 democrats_plot <- generate_plot(democrats_data_long)
@@ -203,13 +229,13 @@ legend <- get_legend(legend_plot)
 
 # Combine plots and align the labels correctly
 combined_plot <- plot_grid(
-  democrats_plot + theme(plot.margin = margin(20, 10, 40, 5.5)), # Increase the top margin
-  republicans_plot + theme(plot.margin = margin(20, 10, 40, 5.5)),
+  democrats_plot + theme(plot.margin = margin(60, 10, 20, 5.5)), # Increase the top margin
+  republicans_plot + theme(plot.margin = margin(60, 10, 20, 5.5)),
   labels = c("Target: Democrats", "Target: Republicans"),
   label_size = 12,
   label_fontface = "bold",
-  hjust = -0.5, # Adjust horizontal position of labels
-  vjust = 1.5,  # Adjust vertical position of labels
+  hjust = -0.59, # Adjust horizontal position of labels
+  vjust = 6.7,  # Adjust vertical position of labels
   ncol = 2
 )
 
@@ -221,10 +247,16 @@ final_plot <- plot_grid(
   rel_heights = c(3, 0.2) # Adjust these values as needed
 )
 
-# Print the final plot
-print(final_plot)
+final_plot_with_title <- ggdraw() +
+  draw_plot(final_plot) +
+  draw_label("Preferred actions in response to distinct post types", 
+             fontface = 'bold', 
+             size = 14, 
+             x = 0.5, 
+             y = 0.98, 
+             hjust = 0.5)
 
-
+print(final_plot_with_title)
 
 ```
 
