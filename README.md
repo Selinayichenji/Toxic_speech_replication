@@ -10,7 +10,7 @@ The structure of this Repository is as follows:
 - `other/llm` includes file contains all chat history of llm about the report.
 - `other/sketches` includes sketches of the graphs used in this report.
 - `paper` includes a PDF version of the final paper, the Quarto file used to create the PDF, and a file containing the references for the paper.
-- `scripts` includes R scripts for data simulation, downloading, cleaning, testing and replicating.
+- `scripts` includes R scripts for data simulation, downloading, cleaning, testing and model building.
 
 # LLM Usage Statement
 
